@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('_xray', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('patient_id')->constrained('patients');
+            $table->string('image');
+            $table->date('date_image');
+            $table->string('type');
             $table->timestamps();
         });
     }
