@@ -15,6 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('appointment_id')->constrained('appointment');
             $table->foreignId('client_id')->constrained('clients');
+            $table->foreignId('treatment_id')->constrained('treatments');
+            $table->text('observation');
+            $table->date('date');
             $table->timestamps();
         });
     }
