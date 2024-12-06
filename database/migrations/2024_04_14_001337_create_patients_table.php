@@ -20,6 +20,11 @@ return new class extends Migration
             $table->string('sex')->nullable();
             $table->string('occupation')->nullable();
             $table->date('date_of_birth');
+            $table->string('blood_type', 10);
+            $table->string('underlying disease')->nullable();
+            $table->string('allergies')->nullable();
+            $table->float('weight')->nullable();
+            $table->float('size')->nullable();
             $table->timestamps();
         });
     }
