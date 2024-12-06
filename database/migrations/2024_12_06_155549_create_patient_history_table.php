@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('patient_history', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('appointment_id')->constrained('appointment');
+            $table->foreignId('appointment_id')->constrained('appointments');
             $table->foreignId('client_id')->constrained('clients');
             $table->foreignId('treatment_id')->constrained('treatments');
             $table->text('observation');
