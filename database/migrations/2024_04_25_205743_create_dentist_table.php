@@ -11,11 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('dentist', function (Blueprint $table) {
+        Schema::create('dentists', function (Blueprint $table) {
+
+
             $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('first_name', 35);
             $table->string('last_name', 35);
-            $table->string('phone_number');
+            $table->string('phone_number', 25)->unique();
+            $table->string('license_number')->unique()->nullable();
             $table->string('specialty')->nullable();
             $table->timestamps();
         });
