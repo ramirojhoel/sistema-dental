@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('trackingsheet', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('patient_id')->constrained('patients');
+            $table->foreignId('dentist_id')->constrained('dentists');
             $table->text('revision_history')->nullable();
             $table->text('clinical_history')->nullable();
             $table->text('observations')->nullable();
-            $table->dateTime('follow_up_appointment')->nullable();
+            $table->dateTime('follow_up_appointment')->nullable()->index();
             $table->timestamps();
         });
     }
