@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('_xray', function (Blueprint $table) {
+        Schema::create('_xrays', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('patient_id')->constrained('patients');
-            $table->string('image');
-            $table->date('date_image');
-            $table->string('type');
+            $table->foreignId('patient_id')->constrained('patients')->onDelete('cascade');
+            $table->string('path');
+            $table->date('take_on');
+            $table->string('type')->comment('E.g., Periapical, Bitewing, Panoramic');
             $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('_xray');
+        Schema::dropIfExists('_xrays');
     }
 };
