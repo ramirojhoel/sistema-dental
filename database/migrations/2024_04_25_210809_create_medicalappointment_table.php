@@ -12,18 +12,18 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('medicalappointment', function (Blueprint $table) {
-            $table->id();
-            $table->text('revision_history')->nullable();
-            $table->text('clinical_history')->nullable();
-            $table->text('observations')->nullable();
-            $table->dateTime('follow_up_appointment')->nullable();
 
-            $table->boolean('follow_up')->nullable();
-            $table->boolean('is_restorative_treatment')->nullable();
-            $table->boolean('is_initial_evaluation')->nullable();
-            $table->boolean('is_cleaning_and_checkup')->nullable();
-
+            $table->id('id_cita');
+            $table->foreignId('id_pacient')->constrained('pacients', 'id_pacients');
+            $table->foreignId('id_user')->constrained('users', 'id_user');
+            $table->date('date');
+            $table->time('hour');
+            $table->enum('tipo_cita', ['Revision', 'Tratamiento', 'Emergencia']);
+            $table->enum('state', ['Pendiente', 'Completada', 'Cancelada']);
+            $table->text('motivo')->nullable();
+            $table->integer('duracion_min')->nullable();
             $table->timestamps();
+
         });
     }
 
