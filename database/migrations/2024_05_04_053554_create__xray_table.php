@@ -12,13 +12,25 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('_xrays', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('patient_id')->constrained('patients')->onDelete('cascade');
-            $table->string('path');
-            $table->date('take_on');
-            $table->string('type')->comment('E.g., Periapical, Bitewing, Panoramic');
-            $table->timestamps();
+        $table->id('id_radiography');
+        $table->foreignId('id_history')->constrained('medical_history', 'id_history');
+        $table->enum('type', ['Panoramic', 'Periapical', 'Bitewing']);
+        $table->date('date');
+        $table->string('archive_url', 500);
+        $table->text('observations')->nullable();
+        $table->timestamps();
         });
+
+        Schema::create('odontograms', function (Blueprint $table) {
+        $table->id('id_odontogram');
+        $table->foreignId('id_history')->constrained('medical_record', 'id_history');
+        $table->enum('tipo', ['Start', 'Progress', 'Final']);
+        $table->date('date');
+        $table->text('description')->nullable();
+        $table->string('imagen_url', 500)->nullable();
+        $table->timestamps();
+});
+
     }
 
     /**
