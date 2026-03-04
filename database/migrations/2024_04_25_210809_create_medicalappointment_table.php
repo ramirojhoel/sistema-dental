@@ -14,13 +14,13 @@ return new class extends Migration
         Schema::create('medicalappointment', function (Blueprint $table) {
 
             $table->id('id_cita');
-            $table->foreignId('id_pacient')->constrained('pacients', 'id_pacients');
+            $table->foreignId('id_pacient')->constrained('pacients', 'id_pacient');
             $table->foreignId('id_user')->constrained('users', 'id_user');
             $table->date('date');
             $table->time('hour');
-            $table->enum('tipo_cita', ['Revision', 'Tratamiento', 'Emergencia']);
-            $table->enum('state', ['Pendiente', 'Completada', 'Cancelada']);
-            $table->text('motivo')->nullable();
+            $table->enum('appointment_type', ['Review', 'Treatment', 'Emergency']);
+            $table->enum('state', ['Pending', 'Completed', 'Canceled']);
+            $table->text('reason')->nullable();
             $table->integer('duracion_min')->nullable();
             $table->timestamps();
 
