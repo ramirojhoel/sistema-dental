@@ -6,22 +6,18 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) 
-        {
+        Schema::create('users', function (Blueprint $table) {
             $table->id('id_user');
             $table->string('name', 100);
-            $table->string('last name', 100);
+            $table->string('last_name', 100);              
             $table->string('email', 150)->unique();
-            $table->string('password_hash', 255); // Ojo aquí, ver nota abajo
+            $table->string('password', 255);              
             $table->enum('role', ['admin', 'dentist', 'receptionist']);
             $table->string('specialty', 100)->nullable();
             $table->string('phone', 20)->nullable();
-            $table->boolean('asset')->default(true);
+            $table->boolean('active')->default(true);      
             $table->timestamps();
         });
 
@@ -33,7 +29,8 @@ return new class extends Migration
 
         Schema::create('sessions', function (Blueprint $table) {
             $table->string('id')->primary();
-            $table->foreignId('user_id')->nullable()->index();
+            $table->unsignedBigInteger('user_id')->nullable()->index(); // ✅ FIX: referencia explícita
+            $table->foreign('user_id')->references('id_user')->on('users')->nullOnDelete();
             $table->string('ip_address', 45)->nullable();
             $table->text('user_agent')->nullable();
             $table->longText('payload');
@@ -41,13 +38,10 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::dropIfExists('users');
-        Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('sessions');
+        Schema::dropIfExists('password_reset_tokens');
+        Schema::dropIfExists('users');
     }
 };
