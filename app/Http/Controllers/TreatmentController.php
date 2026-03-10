@@ -8,13 +8,25 @@ use Illuminate\Http\Request;
 
 class TreatmentController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $treatments = Treatment::with('medicalHistory.patient')
-            ->orderByDesc('start_date')
-            ->paginate(15);
+    $search = $request->get('search');
 
-        return view('treatments.index', compact('treatments'));
+    $treatments = Treatment::with('medicalHistory.patient')
+        ->when($search, function ($query, $search) {
+            $query->whereHas('medicalHistory.patient', function ($q) use ($search) {
+                $q->where('first_name', 'like', "%{$search}%")
+                  ->orWhere('last_name',  'like', "%{$search}%")
+                  ->orWhere('CI',         'like', "%{$search}%");
+            })
+            ->orWhere('category',    'like', "%{$search}%")
+            ->orWhere('status',      'like', "%{$search}%")
+            ->orWhere('description', 'like', "%{$search}%");
+        })
+        ->orderByDesc('start_date')
+        ->paginate(15);
+
+    return view('treatments.index', compact('treatments', 'search'));
     }
 
     public function create(Request $request)

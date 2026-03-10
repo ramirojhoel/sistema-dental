@@ -9,14 +9,27 @@ use Illuminate\Http\Request;
 
 class MedicalAppointmentController extends Controller
 {
-    public function index()
-    {
-        $appointments = MedicalAppointment::with(['patient', 'user'])
-            ->orderBy('date')->orderBy('hour')
-            ->paginate(20);
+    public function index(Request $request)
+{
+    $search = $request->get('search');
 
-        return view('appointments.index', compact('appointments'));
-    }
+    $appointments = MedicalAppointment::with(['patient', 'user'])
+        ->when($search, function ($query, $search) {
+            $query->whereHas('patient', function ($q) use ($search) {
+                $q->where('first_name', 'like', "%{$search}%")
+                  ->orWhere('last_name',  'like', "%{$search}%")
+                  ->orWhere('CI',         'like', "%{$search}%");
+            })
+            ->orWhere('date',             'like', "%{$search}%")
+            ->orWhere('appointment_type', 'like', "%{$search}%")
+            ->orWhere('state',            'like', "%{$search}%");
+        })
+        ->orderBy('date')
+        ->orderBy('hour')
+        ->paginate(20);
+
+    return view('appointments.index', compact('appointments', 'search'));
+}
 
     public function create()
     {

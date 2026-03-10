@@ -14,6 +14,25 @@
         <p style="color:green">{{ session('success') }}</p>
     @endif
 
+    {{-- BUSCADOR --}}
+    <form method="GET" action="{{ route('appointments.index') }}" style="margin:15px 0">
+        <input
+            type="text"
+            name="search"
+            value="{{ $search ?? '' }}"
+            placeholder="Buscar por paciente, fecha, tipo o estado..."
+            style="padding:6px; width:350px">
+        <button type="submit">🔍 Buscar</button>
+        @if($search)
+            <a href="{{ route('appointments.index') }}">✖ Limpiar</a>
+        @endif
+    </form>
+
+    @if($search)
+        <p>Resultados para: <strong>"{{ $search }}"</strong>
+        — {{ $appointments->total() }} encontrado(s)</p>
+    @endif
+
     <table border="1" cellpadding="8">
         <thead>
             <tr>
@@ -54,13 +73,19 @@
             </tr>
             @empty
             <tr>
-                <td colspan="7">No hay citas registradas.</td>
+                <td colspan="7">
+                    @if($search)
+                        No se encontraron citas con "{{ $search }}"
+                    @else
+                        No hay citas registradas.
+                    @endif
+                </td>
             </tr>
             @endforelse
         </tbody>
     </table>
 
-    {{ $appointments->links() }}
+    {{ $appointments->appends(['search' => $search])->links() }}
 
 </body>
 </html>
