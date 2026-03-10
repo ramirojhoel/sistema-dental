@@ -7,10 +7,20 @@ use Illuminate\Http\Request;
 
 class PatientController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $patients = Patient::orderBy('last_name')->paginate(15);
-        return view('patients.index', compact('patients'));
+    $search = $request->get('search');
+
+    $patients = Patient::when($search, function ($query, $search) {
+            $query->where('first_name',   'like', "%{$search}%")
+                  ->orWhere('last_name',  'like', "%{$search}%")
+                  ->orWhere('CI',         'like', "%{$search}%")
+                  ->orWhere('phone_number','like', "%{$search}%");
+        })
+        ->orderBy('last_name')
+        ->paginate(15);
+
+    return view('patients.index', compact('patients', 'search'));
     }
 
     // ✅ Este método faltaba

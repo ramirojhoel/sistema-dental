@@ -7,12 +7,32 @@
 <body>
 
     <h1>Pacientes</h1>
-
     <a href="{{ route('dashboard') }}">← Dashboard</a> |
     <a href="{{ route('patients.create') }}">+ Nuevo Paciente</a>
 
     @if(session('success'))
         <p style="color:green">{{ session('success') }}</p>
+    @endif
+
+    {{-- BUSCADOR --}}
+    <form method="GET" action="{{ route('patients.index') }}" style="margin: 15px 0">
+        <input
+            type="text"
+            name="search"
+            value="{{ $search ?? '' }}"
+            placeholder="Buscar por nombre, apellido o CI..."
+            style="padding:6px; width:300px">
+        <button type="submit">🔍 Buscar</button>
+
+        @if($search)
+            <a href="{{ route('patients.index') }}">✖ Limpiar</a>
+        @endif
+    </form>
+
+    {{-- RESULTADO --}}
+    @if($search)
+        <p>Resultados para: <strong>"{{ $search }}"</strong>
+        — {{ $patients->total() }} encontrado(s)</p>
     @endif
 
     <table border="1" cellpadding="8">
@@ -43,13 +63,20 @@
             </tr>
             @empty
             <tr>
-                <td colspan="5">No hay pacientes registrados.</td>
+                <td colspan="5">
+                    @if($search)
+                        No se encontraron pacientes con "{{ $search }}"
+                    @else
+                        No hay pacientes registrados.
+                    @endif
+                </td>
             </tr>
             @endforelse
         </tbody>
     </table>
 
-    {{ $patients->links() }}
+    {{-- Paginación manteniendo el search --}}
+    {{ $patients->appends(['search' => $search])->links() }}
 
 </body>
 </html>
