@@ -3,12 +3,26 @@
 namespace App\Http\Controllers;
 
 use App\Models\Treatment;
-use App\Models\MedicalHistory;
 use App\Models\PaymentPlan;
 use Illuminate\Http\Request;
 
 class TreatmentController extends Controller
 {
+    public function index()
+    {
+        $treatments = Treatment::with('medicalHistory.patient')
+            ->orderByDesc('start_date')
+            ->paginate(15);
+
+        return view('treatments.index', compact('treatments'));
+    }
+
+    public function create(Request $request)
+    {
+        $historyId = $request->query('history');
+        return view('treatments.create', compact('historyId'));
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -26,34 +40,55 @@ class TreatmentController extends Controller
 
         // Crear plan de pago automáticamente
         PaymentPlan::create([
-            'id_treatment'       => $treatment->id_treatment,
-            'total_amount'       => $validated['cost'],
-            'amount_paid'        => 0,
-            'outstanding_balance'=> $validated['cost'],
+            'id_treatment'        => $treatment->id_treatment,
+            'total_amount'        => $validated['cost'],
+            'amount_paid'         => 0,
+            'outstanding_balance' => $validated['cost'],
         ]);
 
-        return redirect()->back()->with('success', 'Tratamiento registrado con plan de pago.');
+        return redirect()->route('treatments.show', $treatment->id_treatment)
+                         ->with('success', 'Tratamiento creado con plan de pago.');
     }
 
-    public function registerPayment(Request $request, $id)
+    public function show($id)
     {
-        $plan = PaymentPlan::where('id_treatment', $id)->firstOrFail();
+        $treatment = Treatment::with([
+            'medicalHistory.patient',
+            'user',
+            'paymentPlan',
+            'tracking'
+        ])->findOrFail($id);
 
-        $request->validate([
-            'amount'         => 'required|numeric|min:1|max:' . $plan->outstanding_balance,
-            'payment_method' => 'required|in:Cash,QR',
+        return view('treatments.show', compact('treatment'));
+    }
+
+    public function edit($id)
+    {
+        $treatment = Treatment::findOrFail($id);
+        return view('treatments.edit', compact('treatment'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $treatment = Treatment::findOrFail($id);
+
+        $validated = $request->validate([
+            'status'      => 'required|in:In progress,Completed,Suspended',
+            'end_date'    => 'nullable|date',
+            'description' => 'required|string',
+            'cost'        => 'required|numeric|min:0',
         ]);
 
-        $newPaid    = $plan->amount_paid + $request->amount;
-        $newBalance = $plan->total_amount - $newPaid;
+        $treatment->update($validated);
 
-        $plan->update([
-            'amount_paid'        => $newPaid,
-            'outstanding_balance'=> $newBalance,
-            'payment_date'       => now(),
-            'payment_method'     => $request->payment_method,
-        ]);
+        return redirect()->route('treatments.show', $treatment->id_treatment)
+                         ->with('success', 'Tratamiento actualizado.');
+    }
 
-        return back()->with('success', 'Pago registrado correctamente.');
+    public function destroy($id)
+    {
+        Treatment::findOrFail($id)->delete();
+        return redirect()->route('treatments.index')
+                         ->with('success', 'Tratamiento eliminado.');
     }
 }
