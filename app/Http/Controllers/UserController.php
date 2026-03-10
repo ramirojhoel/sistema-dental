@@ -14,6 +14,11 @@ class UserController extends Controller
         return view('users.index', compact('users'));
     }
 
+    public function create()
+    {
+        return view('users.create');
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -27,10 +32,18 @@ class UserController extends Controller
         ]);
 
         $validated['password'] = Hash::make($validated['password']);
+        $validated['active']   = true;
+
         User::create($validated);
 
         return redirect()->route('users.index')
                          ->with('success', 'Usuario creado correctamente.');
+    }
+
+    public function edit($id)
+    {
+        $user = User::findOrFail($id);
+        return view('users.edit', compact('user'));
     }
 
     public function update(Request $request, $id)
@@ -57,5 +70,11 @@ class UserController extends Controller
         User::findOrFail($id)->delete();
         return redirect()->route('users.index')
                          ->with('success', 'Usuario eliminado.');
+    }
+
+    public function show($id)
+    {
+        $user = User::findOrFail($id);
+        return view('users.show', compact('user'));
     }
 }

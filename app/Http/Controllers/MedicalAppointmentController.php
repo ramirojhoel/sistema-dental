@@ -12,11 +12,18 @@ class MedicalAppointmentController extends Controller
     public function index()
     {
         $appointments = MedicalAppointment::with(['patient', 'user'])
-            ->orderBy('date')
-            ->orderBy('hour')
+            ->orderBy('date')->orderBy('hour')
             ->paginate(20);
 
         return view('appointments.index', compact('appointments'));
+    }
+
+    public function create()
+    {
+        $patients = Patient::orderBy('last_name')->get();
+        $dentists = User::whereIn('role', ['admin', 'dentist'])->get();
+
+        return view('appointments.create', compact('patients', 'dentists'));
     }
 
     public function store(Request $request)
@@ -24,30 +31,63 @@ class MedicalAppointmentController extends Controller
         $validated = $request->validate([
             'id_patient'       => 'required|exists:patients,id_patient',
             'id_user'          => 'required|exists:users,id_user',
-            'date'             => 'required|date|after_or_equal:today',
-            'hour'             => 'required|date_format:H:i',
+            'date'             => 'required|date',
+            'hour'             => 'required',
             'appointment_type' => 'required|in:Review,Treatment,Emergency',
             'state'            => 'required|in:Pending,Completed,Canceled',
             'reason'           => 'nullable|string',
             'duration_min'     => 'nullable|integer|min:10|max:180',
         ]);
 
-        $appointment = MedicalAppointment::create($validated);
+        MedicalAppointment::create($validated);
 
         return redirect()->route('appointments.index')
                          ->with('success', 'Cita agendada correctamente.');
     }
 
-    public function updateState(Request $request, $id)
+    public function show($id)
+    {
+        $appointment = MedicalAppointment::with(['patient', 'user'])
+            ->findOrFail($id);
+
+        return view('appointments.show', compact('appointment'));
+    }
+
+    public function edit($id)
+    {
+        $appointment = MedicalAppointment::findOrFail($id);
+        $patients    = Patient::orderBy('last_name')->get();
+        $dentists    = User::whereIn('role', ['admin', 'dentist'])->get();
+
+        return view('appointments.edit', compact('appointment', 'patients', 'dentists'));
+    }
+
+    public function update(Request $request, $id)
     {
         $appointment = MedicalAppointment::findOrFail($id);
 
-        $request->validate([
-            'state' => 'required|in:Pending,Completed,Canceled'
+        $validated = $request->validate([
+            'id_patient'       => 'required|exists:patients,id_patient',
+            'id_user'          => 'required|exists:users,id_user',
+            'date'             => 'required|date',
+            'hour'             => 'required',
+            'appointment_type' => 'required|in:Review,Treatment,Emergency',
+            'state'            => 'required|in:Pending,Completed,Canceled',
+            'reason'           => 'nullable|string',
+            'duration_min'     => 'nullable|integer',
         ]);
 
-        $appointment->update(['state' => $request->state]);
+        $appointment->update($validated);
 
-        return back()->with('success', 'Estado de cita actualizado.');
+        return redirect()->route('appointments.show', $appointment->id_appointment)
+                         ->with('success', 'Cita actualizada.');
+    }
+
+    public function destroy($id)
+    {
+        MedicalAppointment::findOrFail($id)->delete();
+
+        return redirect()->route('appointments.index')
+                         ->with('success', 'Cita eliminada.');
     }
 }

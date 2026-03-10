@@ -14,6 +14,7 @@
     <nav>
         <a href="{{ route('patients.index') }}">Pacientes</a> |
         <a href="{{ route('appointments.index') }}">Citas</a> |
+        <a href="{{ route('users.index') }}">Usuarios</a> |
         <a href="{{ route('treatments.index') }}">Tratamientos</a>
     </nav>
 
