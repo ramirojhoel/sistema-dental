@@ -34,7 +34,7 @@ class AuthController extends Controller
             return match($role) {
                 'admin'         => redirect()->route('dashboard'),
                 'dentist'       => redirect()->route('patients.index'),
-                'receptionist'  => redirect()->route('appointments.index'),
+                'receptionist'  => redirect()->route('dashboard'),
                  default         => redirect()->route('dashboard'),
             };
         }
