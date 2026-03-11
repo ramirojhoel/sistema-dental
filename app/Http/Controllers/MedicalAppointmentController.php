@@ -11,7 +11,10 @@ class MedicalAppointmentController extends Controller
 {
     public function index(Request $request)
 {
-    $search = $request->get('search');
+    $search    = $request->get('search');
+    $dateFrom  = $request->get('date_from');
+    $dateTo    = $request->get('date_to');
+    $state     = $request->get('state');
 
     $appointments = MedicalAppointment::with(['patient', 'user'])
         ->when($search, function ($query, $search) {
@@ -19,16 +22,24 @@ class MedicalAppointmentController extends Controller
                 $q->where('first_name', 'like', "%{$search}%")
                   ->orWhere('last_name',  'like', "%{$search}%")
                   ->orWhere('CI',         'like', "%{$search}%");
-            })
-            ->orWhere('date',             'like', "%{$search}%")
-            ->orWhere('appointment_type', 'like', "%{$search}%")
-            ->orWhere('state',            'like', "%{$search}%");
+            });
+        })
+        ->when($dateFrom, function ($query, $dateFrom) {
+            $query->where('date', '>=', $dateFrom);
+        })
+        ->when($dateTo, function ($query, $dateTo) {
+            $query->where('date', '<=', $dateTo);
+        })
+        ->when($state, function ($query, $state) {
+            $query->where('state', $state);
         })
         ->orderBy('date')
         ->orderBy('hour')
         ->paginate(20);
 
-    return view('appointments.index', compact('appointments', 'search'));
+    return view('appointments.index', compact(
+        'appointments', 'search', 'dateFrom', 'dateTo', 'state'
+    ));
 }
 
     public function create()
