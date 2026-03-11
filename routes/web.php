@@ -19,7 +19,7 @@ Route::post('/logout',[AuthController::class, 'logout'])->name('logout');
 
 Route::middleware('auth')->group(function () {
 
-    Route::get('/dashboard', fn() => view('dashboard'))->name('dashboard');
+    Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
 
     // ── SOLO ADMIN ────────────────────────────────
     Route::middleware('role:admin')->group(function () {
