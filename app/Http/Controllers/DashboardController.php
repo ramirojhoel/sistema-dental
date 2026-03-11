@@ -36,10 +36,10 @@ class DashboardController extends Controller
         $completedTreatments = Treatment::where('status', 'Completed')->count();
 
         // ── Ingresos ───────────────────────────────
-        $totalIncome     = PaymentPlan::sum('total_cost');
-        $totalCollected  = PaymentPlan::sum('amount_paid');
-        $totalPending    = PaymentPlan::sum('outstanding_balance');
-
+        $totalIncome    = PaymentPlan::sum('total_amount');
+        $totalCollected = PaymentPlan::sum('amount_paid');
+        $totalPending   = PaymentPlan::sum('outstanding_balance');
+        
         // ── Próximas citas (5) ─────────────────────
         $upcomingAppointments = MedicalAppointment::with(['patient', 'user'])
             ->whereDate('date', '>=', Carbon::today())
