@@ -2,51 +2,241 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Editar Usuario</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Usuario — Sistema Dental</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .gradient-header { background: linear-gradient(135deg, #0f766e 0%, #0369a1 100%); }
+        .sidebar-link { transition: all 0.15s ease; }
+        .sidebar-link:hover { background: rgba(255,255,255,0.15); }
+        .input-field {
+            width: 100%;
+            padding: 0.625rem 0.875rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.75rem;
+            font-size: 0.875rem;
+            outline: none;
+            transition: all 0.15s;
+            background: white;
+        }
+        .input-field:focus { border-color: #0f766e; box-shadow: 0 0 0 3px rgba(15,118,110,0.1); }
+    </style>
 </head>
-<body>
+<body class="bg-slate-50 min-h-screen">
+<div class="flex min-h-screen">
 
-    <h1>Editar: {{ $user->name }} {{ $user->last_name }}</h1>
-    <a href="{{ route('users.index') }}">← Volver</a>
+    {{-- ── SIDEBAR ── --}}
+    <aside class="gradient-header w-64 min-h-screen flex flex-col fixed left-0 top-0 z-10 shadow-xl">
+        <div class="px-6 py-8 border-b border-white/20">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center text-2xl">🦷</div>
+                <div>
+                    <h1 class="text-white font-bold text-lg leading-tight">DentalSys</h1>
+                    <p class="text-teal-200 text-xs">Sistema de Gestión</p>
+                </div>
+            </div>
+        </div>
+        <div class="px-6 py-4 border-b border-white/20">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 bg-white/30 rounded-full flex items-center justify-center text-white font-bold text-sm">
+                    {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                </div>
+                <div>
+                    <p class="text-white font-semibold text-sm">{{ Auth::user()->name }}</p>
+                    <p class="text-teal-200 text-xs capitalize">{{ Auth::user()->role }}</p>
+                </div>
+            </div>
+        </div>
+        <nav class="flex-1 px-4 py-6 space-y-1">
+            <p class="text-teal-300 text-xs font-semibold uppercase tracking-wider px-3 mb-3">Menú Principal</p>
+            <a href="{{ route('dashboard') }}" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-teal-100 text-sm font-medium">
+                <span class="text-lg">📊</span> Dashboard
+            </a>
+            <a href="{{ route('patients.index') }}" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-teal-100 text-sm font-medium">
+                <span class="text-lg">👥</span> Pacientes
+            </a>
+            <a href="{{ route('appointments.index') }}" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-teal-100 text-sm font-medium">
+                <span class="text-lg">📅</span> Citas
+            </a>
+            <a href="{{ route('treatments.index') }}" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-teal-100 text-sm font-medium">
+                <span class="text-lg">🦷</span> Tratamientos
+            </a>
+            <div class="pt-4">
+                <p class="text-teal-300 text-xs font-semibold uppercase tracking-wider px-3 mb-3">Administración</p>
+                <a href="{{ route('users.index') }}" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-white text-sm font-medium bg-white/20">
+                    <span class="text-lg">👤</span> Usuarios
+                </a>
+            </div>
+        </nav>
+        <div class="px-4 py-6 border-t border-white/20">
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-teal-100 text-sm font-medium hover:bg-red-500/20 hover:text-white transition-all">
+                    <span class="text-lg">🚪</span> Cerrar Sesión
+                </button>
+            </form>
+        </div>
+    </aside>
 
-    @if($errors->any())
-        <ul style="color:red">
-            @foreach($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    @endif
+    <main class="ml-64 flex-1 p-8">
 
-    <form method="POST" action="{{ route('users.update', $user->id_user) }}">
-        @csrf @method('PUT')
+        <div class="flex items-center gap-4 mb-8">
+            <a href="{{ route('users.index') }}"
+               class="w-9 h-9 bg-white border border-slate-200 rounded-xl flex items-center justify-center text-slate-500 hover:bg-slate-50 transition-colors shadow-sm">
+                ←
+            </a>
+            <div>
+                <h2 class="text-2xl font-bold text-slate-800">Editar Usuario</h2>
+                <p class="text-slate-500 text-sm mt-1">Actualiza la información de {{ $user->name }} {{ $user->last_name }}</p>
+            </div>
+        </div>
 
-        <label>Nombre: *</label><br>
-        <input type="text" name="name" value="{{ old('name', $user->name) }}" required><br><br>
+        @if($errors->any())
+            <div class="bg-red-50 border border-red-200 text-red-700 px-5 py-4 rounded-xl mb-6">
+                <p class="font-semibold text-sm mb-2">⚠️ Corrige los siguientes errores:</p>
+                <ul class="text-sm space-y-1 list-disc list-inside">
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
-        <label>Apellido: *</label><br>
-        <input type="text" name="last_name" value="{{ old('last_name', $user->last_name) }}" required><br><br>
+        <form method="POST" action="{{ route('users.update', $user->id_user) }}">
+            @csrf @method('PUT')
 
-        <label>Rol: *</label><br>
-        <select name="role" required>
-            <option value="admin"        {{ $user->role == 'admin'        ? 'selected' : '' }}>🔴 Administrador</option>
-            <option value="dentist"      {{ $user->role == 'dentist'      ? 'selected' : '' }}>🦷 Dentista</option>
-            <option value="receptionist" {{ $user->role == 'receptionist' ? 'selected' : '' }}>📋 Recepcionista</option>
-        </select><br><br>
+            <div class="grid grid-cols-3 gap-6">
 
-        <label>Especialidad:</label><br>
-        <input type="text" name="specialty" value="{{ old('specialty', $user->specialty) }}"><br><br>
+                <div class="col-span-1 space-y-6">
+                    <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 flex flex-col items-center text-center">
+                        <div class="w-24 h-24 gradient-header rounded-2xl flex items-center justify-center text-white text-4xl font-extrabold mb-4">
+                            {{ strtoupper(substr($user->name, 0, 1)) }}
+                        </div>
+                        <p class="text-slate-700 font-bold text-lg">{{ $user->name }} {{ $user->last_name }}</p>
+                        <p class="text-slate-400 text-sm mt-1 capitalize">{{ $user->role }}</p>
+                    </div>
 
-        <label>Teléfono:</label><br>
-        <input type="text" name="phone" value="{{ old('phone', $user->phone) }}"><br><br>
+                    <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
+                        <h3 class="text-sm font-bold text-slate-700 mb-4 flex items-center gap-2">
+                            <span class="w-7 h-7 gradient-header rounded-lg flex items-center justify-center text-white text-xs">🔑</span>
+                            Rol y Acceso
+                        </h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-500 mb-1.5">Rol <span class="text-red-500">*</span></label>
+                                <select name="role" class="input-field" required>
+                                    <option value="admin"        {{ old('role', $user->role) == 'admin'        ? 'selected' : '' }}>🔴 Administrador</option>
+                                    <option value="dentist"      {{ old('role', $user->role) == 'dentist'      ? 'selected' : '' }}>🦷 Dentista</option>
+                                    <option value="receptionist" {{ old('role', $user->role) == 'receptionist' ? 'selected' : '' }}>📋 Recepcionista</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-500 mb-1.5">Estado</label>
+                                <select name="active" class="input-field">
+                                    <option value="1" {{ old('active', $user->active) == '1' ? 'selected' : '' }}>✅ Activo</option>
+                                    <option value="0" {{ old('active', $user->active) == '0' ? 'selected' : '' }}>⭕ Inactivo</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
 
-        <label>Estado:</label><br>
-        <select name="active">
-            <option value="1" {{ $user->active ? 'selected' : '' }}>✅ Activo</option>
-            <option value="0" {{ !$user->active ? 'selected' : '' }}>❌ Inactivo</option>
-        </select><br><br>
+                    <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
+                        <h3 class="text-sm font-bold text-slate-700 mb-4 flex items-center gap-2">
+                            <span class="w-7 h-7 gradient-header rounded-lg flex items-center justify-center text-white text-xs">🦷</span>
+                            Especialidad
+                        </h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-500 mb-1.5">Especialidad</label>
+                                <input type="text" name="specialty"
+                                    value="{{ old('specialty', $user->specialty ?? '') }}"
+                                    placeholder="Ej: Ortodoncia"
+                                    class="input-field">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-500 mb-1.5">Teléfono</label>
+                                <input type="text" name="phone"
+                                    value="{{ old('phone', $user->phone ?? '') }}"
+                                    placeholder="Ej: 77712345"
+                                    class="input-field">
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-        <button type="submit">Actualizar Usuario</button>
-    </form>
+                <div class="col-span-2 space-y-6">
 
+                    <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
+                        <h3 class="text-sm font-bold text-slate-700 mb-4 flex items-center gap-2">
+                            <span class="w-7 h-7 gradient-header rounded-lg flex items-center justify-center text-white text-xs">👤</span>
+                            Información Personal
+                        </h3>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-500 mb-1.5">Nombre <span class="text-red-500">*</span></label>
+                                <input type="text" name="name"
+                                    value="{{ old('name', $user->name) }}"
+                                    class="input-field" required>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-500 mb-1.5">Apellido <span class="text-red-500">*</span></label>
+                                <input type="text" name="last_name"
+                                    value="{{ old('last_name', $user->last_name) }}"
+                                    class="input-field" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
+                        <h3 class="text-sm font-bold text-slate-700 mb-4 flex items-center gap-2">
+                            <span class="w-7 h-7 gradient-header rounded-lg flex items-center justify-center text-white text-xs">🔒</span>
+                            Credenciales de Acceso
+                        </h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-500 mb-1.5">Correo Electrónico <span class="text-red-500">*</span></label>
+                                <input type="email" name="email"
+                                    value="{{ old('email', $user->email) }}"
+                                    class="input-field" required>
+                            </div>
+                            <div class="bg-amber-50 border border-amber-200 rounded-xl px-4 py-3">
+                                <p class="text-xs font-semibold text-amber-700">🔑 Cambiar contraseña (opcional)</p>
+                                <p class="text-xs text-amber-600 mt-0.5">Deja en blanco si no deseas cambiarla.</p>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-500 mb-1.5">Nueva Contraseña</label>
+                                    <input type="password" name="password"
+                                        placeholder="Nueva contraseña"
+                                        class="input-field">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-500 mb-1.5">Confirmar Contraseña</label>
+                                    <input type="password" name="password_confirmation"
+                                        placeholder="Repite la contraseña"
+                                        class="input-field">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-end gap-3">
+                        <a href="{{ route('users.index') }}"
+                           class="px-6 py-2.5 rounded-xl text-sm font-semibold text-slate-500 border border-slate-200 hover:bg-slate-50 transition-all">
+                            Cancelar
+                        </a>
+                        <button type="submit"
+                            class="gradient-header text-white px-8 py-2.5 rounded-xl text-sm font-semibold hover:opacity-90 transition-all shadow-md">
+                            💾 Guardar Cambios
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </form>
+    </main>
+</div>
 </body>
 </html>
