@@ -41,6 +41,8 @@ class PatientController extends Controller
             'address'       => 'nullable|string|max:250',
             'blood_type'    => 'nullable|string|max:5',
             'allergies'     => 'nullable|string',
+            'emergency_contact_name'  => 'nullable|string|max:100',
+            'emergency_contact_phone' => 'nullable|string|max:20',
         ]);
 
         $patient = Patient::create($validated);
@@ -76,6 +78,8 @@ class PatientController extends Controller
             'phone_number' => 'nullable|string|max:20',
             'address'      => 'nullable|string|max:250',
             'allergies'    => 'nullable|string',
+            'emergency_contact_name'  => 'nullable|string|max:100',
+            'emergency_contact_phone' => 'nullable|string|max:20',
         ]);
 
         $patient->update($validated);

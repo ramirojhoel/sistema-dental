@@ -12,10 +12,11 @@ class Patient extends Model
     protected $primaryKey = 'id_patient';
 
     protected $fillable = [
-        'CI', 'first_name', 'last_name', 'date_of_birth',
-        'sex', 'address', 'phone_number', 'occupation',
-        'blood_type', 'allergies'
-    ];
+    'CI', 'first_name', 'last_name', 'date_of_birth',
+    'sex', 'address', 'phone_number', 'occupation',
+    'blood_type', 'allergies',
+    'emergency_contact_name', 'emergency_contact_phone',  // ← agregar esto
+];
 
     // Relaciones
     public function medicalHistories(): HasMany
