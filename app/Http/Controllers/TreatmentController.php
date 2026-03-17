@@ -40,7 +40,7 @@ class TreatmentController extends Controller
         $validated = $request->validate([
             'id_history'  => 'required|exists:medical_history,id_history',
             'id_user'     => 'required|exists:users,id_user',
-            'category'    => 'required|in:Orthodontics,Endodontics,Aesthetics,Surgery',
+            'category'    => 'required|in:Orthodontics,Endodontics,Periodontics,Oral Surgery,Prosthodontics,Implants,Whitening,Cleaning,Aesthetics,Surgery,Other',
             'description' => 'required|string',
             'cost'        => 'required|numeric|min:0',
             'start_date'  => 'required|date',
