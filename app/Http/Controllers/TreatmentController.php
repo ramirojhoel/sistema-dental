@@ -37,8 +37,6 @@ class TreatmentController extends Controller
 
     public function store(Request $request)
     {
-        
-    dd($request->all());
     $historyId = $request->input('id_history');
 
     $validator = \Validator::make($request->all(), [

@@ -112,7 +112,7 @@
             </div>
         @endif
 
-        <form method="POST" action="{{ route('treatments.store') }}>
+        <form id="treatment-form" method="POST" action="{{ route('treatments.store') }}">
             @csrf
             <input type="hidden" name="id_history" value="{{ old('id_history', request()->query('history')) }}">
             <input type="hidden" name="id_user" value="{{ Auth::user()->id_user }}">
@@ -217,7 +217,7 @@
                            class="px-6 py-2.5 rounded-xl text-sm font-semibold text-slate-500 border border-slate-200 hover:bg-slate-50 transition-all">
                             Cancelar
                         </a>
-                        <button type="submit"
+                        <button type="submit" form="treatment-form"
                             class="gradient-header text-white px-8 py-2.5 rounded-xl text-sm font-semibold hover:opacity-90 transition-all shadow-md">
                             🦷 Crear Tratamiento
                         </button>
