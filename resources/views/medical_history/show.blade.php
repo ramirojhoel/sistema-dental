@@ -200,8 +200,8 @@
             <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
                 <h3 class="font-bold text-slate-800 text-sm">🦷 Tratamientos Asociados</h3>
                 @if(in_array(Auth::user()->role, ['admin', 'dentist']))
-                    <a href="{{ route('treatments.create', $history->id_history) }}"
-                       class="text-xs font-semibold text-teal-600 hover:underline">+ Nuevo</a>
+                    <a href="{{ route('treatments.create') }}?history={{ $history->id_history }}"
+                      class="text-xs font-semibold text-teal-600 hover:underline">+ Nuevo</a>
                 @endif
             </div>
             @if(!$history->treatments || $history->treatments->isEmpty())

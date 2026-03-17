@@ -31,35 +31,47 @@ class TreatmentController extends Controller
 
     public function create(Request $request)
     {
-        $historyId = $request->query('history');
-        return view('treatments.create', compact('historyId'));
+    $historyId = $request->query('history');
+    return view('treatments.create', compact('historyId'));
     }
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'id_history'  => 'required|exists:medical_history,id_history',
-            'id_user'     => 'required|exists:users,id_user',
-            'category'    => 'required|in:Orthodontics,Endodontics,Periodontics,Oral Surgery,Prosthodontics,Implants,Whitening,Cleaning,Aesthetics,Surgery,Other',
-            'description' => 'required|string',
-            'cost'        => 'required|numeric|min:0',
-            'start_date'  => 'required|date',
-            'end_date'    => 'nullable|date|after:start_date',
-            'status'      => 'required|in:In progress,Completed,Suspended',
-        ]);
+        
+    dd($request->all());
+    $historyId = $request->input('id_history');
 
-        $treatment = Treatment::create($validated);
+    $validator = \Validator::make($request->all(), [
+        'id_history'  => 'required|exists:medical_history,id_history',
+        'id_user'     => 'required|exists:users,id_user',
+        'category'    => 'required|in:Orthodontics,Endodontics,Periodontics,Oral Surgery,Prosthodontics,Implants,Whitening,Cleaning,Aesthetics,Surgery,Other',
+        'description' => 'required|string',
+        'cost'        => 'required|numeric|min:0',
+        'start_date'  => 'required|date',
+        'end_date'    => 'nullable|date',
+        'status'      => 'required|in:In progress,Completed,Suspended',
+    ]);
 
-        // Crear plan de pago automáticamente
-        PaymentPlan::create([
-            'id_treatment'        => $treatment->id_treatment,
-            'total_amount'        => $validated['cost'],
-            'amount_paid'         => 0,
-            'outstanding_balance' => $validated['cost'],
-        ]);
+    if ($validator->fails()) {
+        return redirect()
+            ->route('treatments.create', ['history' => $historyId])
+            ->withErrors($validator)
+            ->withInput();
+    }
 
-        return redirect()->route('treatments.show', $treatment->id_treatment)
-                         ->with('success', 'Tratamiento creado con plan de pago.');
+    $validated = $validator->validated();
+
+    $treatment = Treatment::create($validated);
+
+    PaymentPlan::create([
+        'id_treatment'        => $treatment->id_treatment,
+        'total_amount'        => $validated['cost'],
+        'amount_paid'         => 0,
+        'outstanding_balance' => $validated['cost'],
+    ]);
+
+    return redirect()->route('treatments.show', $treatment->id_treatment)
+                     ->with('success', 'Tratamiento creado con plan de pago.');
     }
 
     public function show($id)

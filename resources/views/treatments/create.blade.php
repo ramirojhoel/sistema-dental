@@ -112,9 +112,9 @@
             </div>
         @endif
 
-        <form method="POST" action="{{ route('treatments.store') }}">
+        <form method="POST" action="{{ route('treatments.store') }}>
             @csrf
-            <input type="hidden" name="id_history" value="{{ $historyId }}">
+            <input type="hidden" name="id_history" value="{{ old('id_history', request()->query('history')) }}">
             <input type="hidden" name="id_user" value="{{ Auth::user()->id_user }}">
 
             <div class="grid grid-cols-3 gap-6">
