@@ -183,7 +183,7 @@
                 {{-- ── COLUMNA DERECHA ── --}}
                 <div class="col-span-2 space-y-6">
 
-                    {{-- Motivo y Diagnóstico --}}
+                    {{-- Consulta Clínica --}}
                     <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
                         <h3 class="text-sm font-bold text-slate-700 mb-4 flex items-center gap-2">
                             <span class="w-7 h-7 gradient-header rounded-lg flex items-center justify-center text-white text-xs">🩺</span>
@@ -205,35 +205,15 @@
                         </div>
                     </div>
 
-                    {{-- Signos vitales --}}
+                    {{-- Plan de Tratamiento --}}
                     <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
                         <h3 class="text-sm font-bold text-slate-700 mb-4 flex items-center gap-2">
-                            <span class="w-7 h-7 gradient-header rounded-lg flex items-center justify-center text-white text-xs">❤️</span>
-                            Signos Vitales <span class="text-slate-400 font-normal text-xs ml-1">(opcional)</span>
+                            <span class="w-7 h-7 gradient-header rounded-lg flex items-center justify-center text-white text-xs">🦷</span>
+                            Plan de Tratamiento
                         </h3>
-                        <div class="grid grid-cols-3 gap-4">
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-500 mb-1.5">Presión Arterial</label>
-                                <input type="text" name="blood_pressure"
-                                    value="{{ old('blood_pressure', $history->blood_pressure ?? '') }}"
-                                    placeholder="Ej: 120/80"
-                                    class="input-field">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-500 mb-1.5">Pulso (bpm)</label>
-                                <input type="number" name="pulse"
-                                    value="{{ old('pulse', $history->pulse ?? '') }}"
-                                    placeholder="Ej: 72"
-                                    class="input-field">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-500 mb-1.5">Temperatura (°C)</label>
-                                <input type="number" step="0.1" name="temperature"
-                                    value="{{ old('temperature', $history->temperature ?? '') }}"
-                                    placeholder="Ej: 36.5"
-                                    class="input-field">
-                            </div>
-                        </div>
+                        <textarea name="treatment_plan" rows="4"
+                            placeholder="Describe el plan de tratamiento propuesto..."
+                            class="input-field resize-none">{{ old('treatment_plan', $history->treatment_plan ?? '') }}</textarea>
                     </div>
 
                     {{-- Observaciones --}}

@@ -49,15 +49,18 @@ class MedicalHistoryController extends Controller
     // 💾 Guardar nuevo historial
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'id_patient'             => 'required|exists:patients,id_patient',
-            'opening_date'           => 'required|date',
-            'reason_for_consultation'=> 'nullable|string',
-            'background'             => 'nullable|string',
-            'current_medications'    => 'nullable|string',
-        ]);
+       $validated = $request->validate([
+    'id_patient'          => 'required|exists:patients,id_patient',
+    'opening_date'        => 'required|date',
+    'reason_for_visit'    => 'nullable|string',
+    'diagnosis'           => 'nullable|string',
+    'allergies'           => 'nullable|string',
+    'previous_diseases'   => 'nullable|string',
+    'current_medications' => 'nullable|string',
+    'observations'        => 'nullable|string',
+    'treatment_plan'      => 'nullable|string',
+    ]);
 
-        // Asignar el dentista logueado automáticamente
         $validated['id_user'] = Auth::id();
 
         $history = MedicalHistory::create($validated);
@@ -77,13 +80,16 @@ class MedicalHistoryController extends Controller
     public function update(Request $request, $id)
     {
         $history = MedicalHistory::findOrFail($id);
-
+    
         $validated = $request->validate([
-            'reason_for_consultation'=> 'nullable|string',
-            'background'             => 'nullable|string',
-            'current_medications'    => 'nullable|string',
+        'reason_for_visit'    => 'nullable|string',
+        'diagnosis'           => 'nullable|string',
+        'allergies'           => 'nullable|string',
+        'previous_diseases'   => 'nullable|string',
+        'current_medications' => 'nullable|string',
+        'observations'        => 'nullable|string',
+        'treatment_plan'      => 'nullable|string',
         ]);
-
         $history->update($validated);
 
         return redirect()->route('medical_history.show', $history->id_history)

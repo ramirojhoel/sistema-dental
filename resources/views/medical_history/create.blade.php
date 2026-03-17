@@ -26,7 +26,7 @@
 </head>
 <body class="bg-slate-50 min-h-screen">
 <div class="flex min-h-screen">
-
+ 
     {{-- ── SIDEBAR ── --}}
     <aside class="gradient-header w-64 min-h-screen flex flex-col fixed left-0 top-0 z-10 shadow-xl">
         <div class="px-6 py-8 border-b border-white/20">
@@ -83,10 +83,10 @@
             </form>
         </div>
     </aside>
-
+ 
     {{-- ── CONTENIDO ── --}}
     <main class="ml-64 flex-1 p-8">
-
+ 
         {{-- Header --}}
         <div class="flex items-center gap-4 mb-8">
             <a href="{{ route('patients.show', $patient->id_patient) }}"
@@ -98,7 +98,7 @@
                 <p class="text-slate-500 text-sm mt-1">Creando expediente para <strong>{{ $patient->first_name }} {{ $patient->last_name }}</strong></p>
             </div>
         </div>
-
+ 
         {{-- Errores --}}
         @if($errors->any())
             <div class="bg-red-50 border border-red-200 text-red-700 px-5 py-4 rounded-xl mb-6">
@@ -110,15 +110,18 @@
                 </ul>
             </div>
         @endif
-
+ 
         <form method="POST" action="{{ route('medical_history.store', $patient->id_patient) }}">
             @csrf
-
+            {{-- Campos ocultos requeridos --}}
+            <input type="hidden" name="id_patient" value="{{ $patient->id_patient }}">
+            <input type="hidden" name="opening_date" value="{{ date('Y-m-d') }}">
+ 
             <div class="grid grid-cols-3 gap-6">
-
-                {{-- ── COLUMNA IZQUIERDA: Paciente ── --}}
+ 
+                {{-- ── COLUMNA IZQUIERDA: Paciente + Antecedentes ── --}}
                 <div class="col-span-1 space-y-6">
-
+ 
                     {{-- Tarjeta del paciente --}}
                     <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
                         <div class="gradient-header px-6 py-5">
@@ -149,7 +152,7 @@
                             </div>
                         </div>
                     </div>
-
+ 
                     {{-- Antecedentes --}}
                     <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
                         <h3 class="text-sm font-bold text-slate-700 mb-4 flex items-center gap-2">
@@ -178,13 +181,13 @@
                             </div>
                         </div>
                     </div>
-
+ 
                 </div>
-
-                {{-- ── COLUMNA DERECHA: Consulta ── --}}
+ 
+                {{-- ── COLUMNA DERECHA ── --}}
                 <div class="col-span-2 space-y-6">
-
-                    {{-- Motivo y Diagnóstico --}}
+ 
+                    {{-- Consulta Clínica --}}
                     <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
                         <h3 class="text-sm font-bold text-slate-700 mb-4 flex items-center gap-2">
                             <span class="w-7 h-7 gradient-header rounded-lg flex items-center justify-center text-white text-xs">🩺</span>
@@ -205,35 +208,18 @@
                             </div>
                         </div>
                     </div>
-
-                    {{-- Signos vitales --}}
+ 
+                    {{-- Plan de Tratamiento --}}
                     <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
                         <h3 class="text-sm font-bold text-slate-700 mb-4 flex items-center gap-2">
-                            <span class="w-7 h-7 gradient-header rounded-lg flex items-center justify-center text-white text-xs">❤️</span>
-                            Signos Vitales <span class="text-slate-400 font-normal text-xs ml-1">(opcional)</span>
+                            <span class="w-7 h-7 gradient-header rounded-lg flex items-center justify-center text-white text-xs">🦷</span>
+                            Plan de Tratamiento
                         </h3>
-                        <div class="grid grid-cols-3 gap-4">
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-500 mb-1.5">Presión Arterial</label>
-                                <input type="text" name="blood_pressure" value="{{ old('blood_pressure') }}"
-                                    placeholder="Ej: 120/80"
-                                    class="input-field">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-500 mb-1.5">Pulso (bpm)</label>
-                                <input type="number" name="pulse" value="{{ old('pulse') }}"
-                                    placeholder="Ej: 72"
-                                    class="input-field">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-slate-500 mb-1.5">Temperatura (°C)</label>
-                                <input type="number" step="0.1" name="temperature" value="{{ old('temperature') }}"
-                                    placeholder="Ej: 36.5"
-                                    class="input-field">
-                            </div>
-                        </div>
+                        <textarea name="treatment_plan" rows="4"
+                            placeholder="Describe el plan de tratamiento propuesto..."
+                            class="input-field resize-none">{{ old('treatment_plan') }}</textarea>
                     </div>
-
+ 
                     {{-- Observaciones --}}
                     <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
                         <h3 class="text-sm font-bold text-slate-700 mb-4 flex items-center gap-2">
@@ -244,7 +230,7 @@
                             placeholder="Notas adicionales del médico..."
                             class="input-field resize-none">{{ old('observations') }}</textarea>
                     </div>
-
+ 
                     {{-- Botones --}}
                     <div class="flex items-center justify-end gap-3">
                         <a href="{{ route('patients.show', $patient->id_patient) }}"
@@ -256,7 +242,7 @@
                             📋 Crear Historial
                         </button>
                     </div>
-
+ 
                 </div>
             </div>
         </form>

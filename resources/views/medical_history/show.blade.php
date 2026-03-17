@@ -88,17 +88,15 @@
                     <p class="text-slate-500 text-sm mt-1">Expediente clínico del paciente</p>
                 </div>
             </div>
-            <div class="flex items-center gap-3">
-                @if(in_array(Auth::user()->role, ['admin', 'dentist']))
-                <a href="{{ route('medical_history.edit', $history->id_history) }}"
-                   class="gradient-header text-white px-5 py-2.5 rounded-xl text-sm font-semibold hover:opacity-90 transition-all shadow-md">
-                    ✏️ Editar
-                </a>
-                @endif
-            </div>
+            @if(in_array(Auth::user()->role, ['admin', 'dentist']))
+            <a href="{{ route('medical_history.edit', $history->id_history) }}"
+               class="gradient-header text-white px-5 py-2.5 rounded-xl text-sm font-semibold hover:opacity-90 transition-all shadow-md">
+                ✏️ Editar
+            </a>
+            @endif
         </div>
 
-        {{-- Tarjeta hero del paciente --}}
+        {{-- Tarjeta hero --}}
         <div class="bg-white rounded-2xl border border-slate-100 shadow-sm mb-6 overflow-hidden">
             <div class="gradient-header px-8 py-6">
                 <div class="flex items-center gap-5">
@@ -129,10 +127,8 @@
             </div>
         </div>
 
-        {{-- Grid principal --}}
+        {{-- Consulta Clínica --}}
         <div class="grid grid-cols-2 gap-6 mb-6">
-
-            {{-- Motivo de consulta --}}
             <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
                 <div class="px-6 py-4 border-b border-slate-100">
                     <h3 class="font-bold text-slate-800 text-sm">🩺 Motivo de Consulta</h3>
@@ -141,8 +137,6 @@
                     <p class="text-sm text-slate-600 leading-relaxed">{{ $history->reason_for_visit ?? '— No especificado —' }}</p>
                 </div>
             </div>
-
-            {{-- Diagnóstico --}}
             <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
                 <div class="px-6 py-4 border-b border-slate-100">
                     <h3 class="font-bold text-slate-800 text-sm">📋 Diagnóstico</h3>
@@ -151,12 +145,10 @@
                     <p class="text-sm text-slate-600 leading-relaxed">{{ $history->diagnosis ?? '— No especificado —' }}</p>
                 </div>
             </div>
-
         </div>
 
-        {{-- Antecedentes médicos --}}
+        {{-- Antecedentes --}}
         <div class="grid grid-cols-3 gap-6 mb-6">
-
             <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
                 <div class="px-6 py-4 border-b border-slate-100">
                     <h3 class="font-bold text-slate-800 text-sm">💊 Alergias</h3>
@@ -175,7 +167,6 @@
                     @endif
                 </div>
             </div>
-
             <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
                 <div class="px-6 py-4 border-b border-slate-100">
                     <h3 class="font-bold text-slate-800 text-sm">🏥 Enfermedades Previas</h3>
@@ -184,7 +175,6 @@
                     <p class="text-sm text-slate-600 leading-relaxed">{{ $history->previous_diseases ?? '— Ninguna —' }}</p>
                 </div>
             </div>
-
             <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
                 <div class="px-6 py-4 border-b border-slate-100">
                     <h3 class="font-bold text-slate-800 text-sm">💉 Medicamentos Actuales</h3>
@@ -193,10 +183,19 @@
                     <p class="text-sm text-slate-600 leading-relaxed">{{ $history->current_medications ?? '— Ninguno —' }}</p>
                 </div>
             </div>
-
         </div>
 
-        {{-- Tratamientos del historial --}}
+        {{-- Plan de Tratamiento --}}
+        <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden mb-6">
+            <div class="px-6 py-4 border-b border-slate-100">
+                <h3 class="font-bold text-slate-800 text-sm">🦷 Plan de Tratamiento</h3>
+            </div>
+            <div class="px-6 py-5">
+                <p class="text-sm text-slate-600 leading-relaxed">{{ $history->treatment_plan ?? '— No especificado —' }}</p>
+            </div>
+        </div>
+
+        {{-- Tratamientos Asociados --}}
         <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden mb-6">
             <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
                 <h3 class="font-bold text-slate-800 text-sm">🦷 Tratamientos Asociados</h3>
@@ -252,16 +251,14 @@
         </div>
 
         {{-- Observaciones --}}
-        @if($history->observations)
         <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
             <div class="px-6 py-4 border-b border-slate-100">
                 <h3 class="font-bold text-slate-800 text-sm">📝 Observaciones</h3>
             </div>
             <div class="px-6 py-5">
-                <p class="text-sm text-slate-600 leading-relaxed">{{ $history->observations }}</p>
+                <p class="text-sm text-slate-600 leading-relaxed">{{ $history->observations ?? '— Sin observaciones —' }}</p>
             </div>
         </div>
-        @endif
 
     </main>
 </div>

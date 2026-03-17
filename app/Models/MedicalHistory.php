@@ -12,8 +12,11 @@ class MedicalHistory extends Model
     protected $primaryKey = 'id_history';
 
     protected $fillable = [
-        'id_patient', 'id_user', 'opening_date',
-        'reason_for_consultation', 'background', 'current_medications'
+    'id_patient', 'id_user', 'opening_date',
+    'reason_for_visit', 'diagnosis',
+    'allergies', 'previous_diseases',
+    'current_medications', 'observations', 'treatment_plan',
+    'background', 'reason_for_consultation',
     ];
 
     // Relaciones hacia arriba
