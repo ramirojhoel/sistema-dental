@@ -52,16 +52,15 @@ class MedicalAppointmentController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'id_patient'       => 'required|exists:patients,id_patient',
-            'id_user'          => 'required|exists:users,id_user',
-            'date'             => 'required|date',
-            'hour'             => 'required',
-            'appointment_type' => 'required|in:Review,Treatment,Emergency',
-            'state'            => 'required|in:Pending,Completed,Canceled',
-            'reason'           => 'nullable|string',
-            'duration_min'     => 'nullable|integer|min:10|max:180',
-        ]);
+       $validated = $request->validate([
+        'id_patient'       => 'required|exists:patients,id_patient',
+        'id_user'          => 'required|exists:users,id_user',
+        'date'             => 'required|date',
+        'hour'             => 'required',
+        'appointment_type' => 'required|in:Review,Treatment,Emergency,Consultation,Checkup,Cleaning',
+        'state'            => 'required|in:Pending,Completed,Cancelled',
+        'notes'            => 'nullable|string',
+    ]);
 
         MedicalAppointment::create($validated);
 
@@ -91,14 +90,13 @@ class MedicalAppointmentController extends Controller
         $appointment = MedicalAppointment::findOrFail($id);
 
         $validated = $request->validate([
-            'id_patient'       => 'required|exists:patients,id_patient',
-            'id_user'          => 'required|exists:users,id_user',
-            'date'             => 'required|date',
-            'hour'             => 'required',
-            'appointment_type' => 'required|in:Review,Treatment,Emergency',
-            'state'            => 'required|in:Pending,Completed,Canceled',
-            'reason'           => 'nullable|string',
-            'duration_min'     => 'nullable|integer',
+        'id_patient'       => 'required|exists:patients,id_patient',
+        'id_user'          => 'required|exists:users,id_user',
+        'date'             => 'required|date',
+        'hour'             => 'required',
+        'appointment_type' => 'required|in:Review,Treatment,Emergency,Consultation,Checkup,Cleaning',
+        'state'            => 'required|in:Pending,Completed,Cancelled',
+        'notes'            => 'nullable|string',
         ]);
 
         $appointment->update($validated);
