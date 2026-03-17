@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Editar Cita — Sistema Dental</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -114,7 +115,7 @@
             </div>
         @endif
 
-        <form method="POST" action="{{ route('appointments.update', $appointment->id_appointment) }}">
+        <form id="main-form" method="POST" action="{{ route('appointments.update', $appointment->id_appointment) }}">
             @csrf @method('PUT')
 
             <div class="grid grid-cols-3 gap-6">
@@ -267,7 +268,7 @@
                             <p class="text-xs text-red-500 mt-0.5">Esta acción marcará la cita como cancelada.</p>
                         </div>
                         <button type="button"
-                            onclick="document.querySelector('[name=state]').value='Cancelled'; document.querySelector('form').submit();"
+                            onclick="document.getElementById('main-form').querySelector('[name=state]').value='Cancelled'; document.getElementById('main-form').submit();"
                             class="text-xs font-semibold text-red-600 bg-white border border-red-200 hover:bg-red-100 px-4 py-2 rounded-xl transition-colors">
                             Cancelar Cita
                         </button>

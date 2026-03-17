@@ -11,8 +11,9 @@ class MedicalAppointment extends Model
     protected $primaryKey = 'id_appointment';
 
     protected $fillable = [
-        'id_patient', 'id_user', 'date', 'hour',
-        'appointment_type', 'state', 'reason', 'duration_min'
+    'id_patient', 'id_user', 'date', 'hour',
+    'appointment_type', 'state', 'notes', 'duration_min'
+    
     ];
 
     public function patient(): BelongsTo
