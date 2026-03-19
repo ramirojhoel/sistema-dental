@@ -113,7 +113,6 @@
                             </div>
                         </div>
                     </div>
-                    {{-- Badge estado --}}
                     <div>
                         @if($treatment->status == 'In progress')
                             <span class="text-sm font-bold text-amber-600 bg-amber-50 px-4 py-2 rounded-xl">🔄 En progreso</span>
@@ -126,7 +125,6 @@
                 </div>
             </div>
 
-            {{-- Info rápida --}}
             <div class="px-8 py-5 grid grid-cols-4 gap-6 border-b border-slate-100">
                 <div>
                     <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Inicio</p>
@@ -152,7 +150,6 @@
                 </div>
             </div>
 
-            {{-- Descripción --}}
             @if($treatment->description)
             <div class="px-8 py-5">
                 <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Descripción</p>
@@ -169,7 +166,6 @@
                     <h3 class="font-bold text-slate-800 text-sm">💰 Información Financiera</h3>
                 </div>
                 <div class="px-6 py-5 space-y-4">
-                    {{-- Barra de progreso --}}
                     @php
                         $cost    = $treatment->cost > 0 ? $treatment->cost : 1;
                         $paid    = $treatment->paymentPlan->amount_paid ?? 0;
@@ -201,6 +197,15 @@
                             <p class="text-base font-extrabold text-amber-700">Bs. {{ number_format($pending, 0) }}</p>
                         </div>
                     </div>
+
+                    {{-- Botón Plan de Pago --}}
+                    <div class="pt-2">
+                        <a href="{{ route('payment.show', $treatment->id_treatment) }}"
+                           class="w-full gradient-header text-white py-2.5 rounded-xl text-sm font-semibold hover:opacity-90 transition-all shadow-md flex items-center justify-center gap-2">
+                            💰 Ver Plan de Pago
+                        </a>
+                    </div>
+
                 </div>
             </div>
 
@@ -239,7 +244,6 @@
             <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
                 <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
                     <h3 class="font-bold text-slate-800 text-sm">🦷 Odontograma</h3>
-                    {{-- Odontogramas pendiente de implementar --}}
                 </div>
                 @if($treatment->medicalHistory->odontograms->isEmpty())
                     <div class="px-6 py-10 text-center">
@@ -262,7 +266,6 @@
             <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
                 <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
                     <h3 class="font-bold text-slate-800 text-sm">🔬 Radiografías</h3>
-                    {{-- Xrays pendiente de implementar --}}
                 </div>
                 @if($treatment->medicalHistory->xrays->isEmpty())
                     <div class="px-6 py-10 text-center">
@@ -277,10 +280,6 @@
                                 <p class="text-sm font-semibold text-slate-700">{{ $xray->xray_type ?? 'Radiografía' }}</p>
                                 <p class="text-xs text-slate-400 mt-0.5">{{ \Carbon\Carbon::parse($xray->created_at)->format('d/m/Y') }}</p>
                             </div>
-                            <a href="{{ route('xrays.show', $xray->id_xray) }}"
-                               class="text-xs font-semibold text-teal-600 bg-teal-50 hover:bg-teal-100 px-3 py-1.5 rounded-lg transition-colors">
-                                Ver →
-                            </a>
                         </div>
                         @endforeach
                     </div>

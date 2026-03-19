@@ -102,7 +102,7 @@
                 <div class="flex items-center gap-3">
                     <div class="w-10 h-10 bg-red-50 rounded-xl flex items-center justify-center text-xl">🔴</div>
                     <div>
-                        <p class="text-2xl font-extrabold text-slate-800">{{ $users->where('role', 'admin')->count() }}</p>
+                        <p class="text-2xl font-extrabold text-slate-800">{{ $totalAdmin }}</p>
                         <p class="text-slate-500 text-xs">Administradores</p>
                     </div>
                 </div>
@@ -111,7 +111,8 @@
                 <div class="flex items-center gap-3">
                     <div class="w-10 h-10 bg-teal-50 rounded-xl flex items-center justify-center text-xl">🦷</div>
                     <div>
-                        <p class="text-2xl font-extrabold text-slate-800">{{ $users->where('role', 'dentist')->count() }}</p>
+                        <p class="text-2xl font-extrabold text-slate-800">{{ $totalDentist }}
+</p>
                         <p class="text-slate-500 text-xs">Dentistas</p>
                     </div>
                 </div>
@@ -120,7 +121,7 @@
                 <div class="flex items-center gap-3">
                     <div class="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center text-xl">📋</div>
                     <div>
-                        <p class="text-2xl font-extrabold text-slate-800">{{ $users->where('role', 'receptionist')->count() }}</p>
+                        <p class="text-2xl font-extrabold text-slate-800">{{ $totalReceptionist }}</p>
                         <p class="text-slate-500 text-xs">Recepcionistas</p>
                     </div>
                 </div>

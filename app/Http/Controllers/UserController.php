@@ -8,12 +8,18 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function index()
+   public function index()
     {
-        $users = User::orderBy('last_name')->paginate(15);
-        return view('users.index', compact('users'));
-    }
+    $users      = User::orderBy('last_name')->paginate(15);
+    $totalAdmin = User::where('role', 'admin')->count();
+    $totalDentist = User::where('role', 'dentist')->count();
+    $totalReceptionist = User::where('role', 'receptionist')->count();
 
+    return view('users.index', compact(
+        'users', 'totalAdmin', 'totalDentist', 'totalReceptionist'
+    ));
+    }
+    
     public function create()
     {
         return view('users.create');
@@ -21,23 +27,24 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'name'      => 'required|string|max:100',
-            'last_name' => 'required|string|max:100',
-            'email'     => 'required|email|unique:users',
-            'password'  => 'required|string|min:8|confirmed',
-            'role'      => 'required|in:admin,dentist,receptionist',
-            'specialty' => 'nullable|string|max:100',
-            'phone'     => 'nullable|string|max:20',
-        ]);
+    $validated = $request->validate([
+        'name'      => 'required|string|max:100',
+        'last_name' => 'required|string|max:100',
+        'email'     => 'required|email|unique:users',
+        'password'  => 'required|string|min:8|confirmed',
+        'role'      => 'required|in:admin,dentist,receptionist',
+        'specialty' => 'nullable|string|max:100',
+        'phone'     => 'nullable|string|max:20',
+        'active'    => 'nullable|boolean',
+    ]);
 
-        $validated['password'] = Hash::make($validated['password']);
-        $validated['active']   = true;
+    $validated['password'] = Hash::make($validated['password']);
+    $validated['active']   = $request->input('active', 1);
 
-        User::create($validated);
+    User::create($validated);
 
-        return redirect()->route('users.index')
-                         ->with('success', 'Usuario creado correctamente.');
+    return redirect()->route('users.index')
+    ->with('success', 'Usuario creado correctamente.');
     }
 
     public function edit($id)
@@ -48,21 +55,32 @@ class UserController extends Controller
 
     public function update(Request $request, $id)
     {
-        $user = User::findOrFail($id);
+    $user = User::findOrFail($id);
 
-        $validated = $request->validate([
-            'name'      => 'required|string|max:100',
-            'last_name' => 'required|string|max:100',
-            'role'      => 'required|in:admin,dentist,receptionist',
-            'specialty' => 'nullable|string|max:100',
-            'phone'     => 'nullable|string|max:20',
-            'active'    => 'boolean',
-        ]);
+    $validated = $request->validate([
+        'name'      => 'required|string|max:100',
+        'last_name' => 'required|string|max:100',
+        'email'     => 'required|email|unique:users,email,' . $id . ',id_user',
+        'role'      => 'required|in:admin,dentist,receptionist',
+        'specialty' => 'nullable|string|max:100',
+        'phone'     => 'nullable|string|max:20',
+        'active'    => 'nullable|boolean',
+        'password'  => 'nullable|string|min:8|confirmed',
+    ]);
 
-        $user->update($validated);
+    if (!empty($validated['password'])) {
+        $validated['password'] = Hash::make($validated['password']);
+    } else {
+        unset($validated['password']);
+    }
 
-        return redirect()->route('users.index')
-                         ->with('success', 'Usuario actualizado.');
+    $validated['active'] = $request->input('active', 1);
+
+    $user->update($validated);
+
+    return redirect()->route('users.index')
+    ->with('success', 'Usuario actualizado.');
+    
     }
 
     public function destroy($id)
