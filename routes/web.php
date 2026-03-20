@@ -55,6 +55,13 @@ Route::middleware('auth')->group(function () {
         // Pagos
         Route::get('treatments/{treatmentId}/payment',  [PaymentPlanController::class, 'show'])->name('payment.show');
         Route::post('treatments/{treatmentId}/payment', [PaymentPlanController::class, 'registerPayment'])->name('payment.register');
+
+        // ── REPORTES ──────────────────────────────────
+        Route::get('reports/patients',     [\App\Http\Controllers\ReportController::class, 'patients'])->name('reports.patients');
+        Route::get('reports/appointments', [\App\Http\Controllers\ReportController::class, 'appointments'])->name('reports.appointments');
+        Route::get('reports/treatments',   [\App\Http\Controllers\ReportController::class, 'treatments'])->name('reports.treatments');
+        Route::get('reports/financial',    [\App\Http\Controllers\ReportController::class, 'financial'])->name('reports.financial');
+
     });
 
     // ── TODOS LOS ROLES ────────────────────────────
