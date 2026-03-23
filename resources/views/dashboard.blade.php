@@ -104,6 +104,33 @@
             <p class="text-slate-500 text-sm mt-1">{{ \Carbon\Carbon::today()->locale('es')->isoFormat('dddd, D [de] MMMM [de] YYYY') }}</p>
         </div>
 
+        {{-- ── REPORTES ─────────────────────────── --}}
+        @if(in_array(Auth::user()->role, ['admin', 'dentist']))
+        <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 mb-6">
+        <h3 class="text-sm font-bold text-slate-700 mb-4 flex items-center gap-2">
+        📄 Descargar Reportes PDF
+        </h3>
+        <div class="flex items-center gap-3 flex-wrap">
+        <a href="{{ route('reports.patients') }}"
+           class="flex items-center gap-2 bg-blue-50 text-blue-700 hover:bg-blue-100 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all">
+            📊 Pacientes
+        </a>
+        <a href="{{ route('reports.appointments') }}"
+           class="flex items-center gap-2 bg-teal-50 text-teal-700 hover:bg-teal-100 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all">
+            📅 Citas
+        </a>
+        <a href="{{ route('reports.treatments') }}"
+           class="flex items-center gap-2 bg-purple-50 text-purple-700 hover:bg-purple-100 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all">
+            🦷 Tratamientos
+        </a>
+        <a href="{{ route('reports.financial') }}"
+           class="flex items-center gap-2 bg-green-50 text-green-700 hover:bg-green-100 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all">
+            💰 Financiero
+        </a>
+            </div>
+        </div>
+        @endif
+
         {{-- ── TARJETAS PRINCIPALES ─────────────── --}}
         <div class="grid grid-cols-4 gap-5 mb-6">
 
