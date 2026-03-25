@@ -62,6 +62,11 @@ Route::middleware('auth')->group(function () {
         Route::get('reports/treatments',   [\App\Http\Controllers\ReportController::class, 'treatments'])->name('reports.treatments');
         Route::get('reports/financial',    [\App\Http\Controllers\ReportController::class, 'financial'])->name('reports.financial');
 
+        // ── RUTA RAÍZ ──────────────────────────────
+        Route::get('/', function () {
+        return redirect()->route('login');
+        });
+
     });
 
     // ── TODOS LOS ROLES ────────────────────────────
