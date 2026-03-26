@@ -14,6 +14,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
+
         // ── Totales generales ──────────────────────
         $totalPatients     = Patient::count();
         $totalAppointments = MedicalAppointment::count();
