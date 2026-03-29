@@ -265,5 +265,6 @@
     ci.addEventListener('input', updatePreview);
 </script>
 
+@include('partials.toast')
 </body>
 </html>

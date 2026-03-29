@@ -275,6 +275,6 @@
     inputLastname.addEventListener('input', updatePreview);
     inputRole.addEventListener('change', updatePreview);
 </script>
-
+@include('partials.toast')
 </body>
 </html>

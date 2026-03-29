@@ -209,12 +209,7 @@
     </main>
 </div>
 
+@include('partials.toast')
 </body>
 </html>
-```
 
----
-
-### Prueba en:
-```
-http://127.0.0.1:8000/patients

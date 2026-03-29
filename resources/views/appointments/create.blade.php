@@ -243,5 +243,6 @@
     </main>
 </div>
 
+@include('partials.toast')
 </body>
 </html>
