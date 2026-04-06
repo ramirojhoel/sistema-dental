@@ -42,6 +42,7 @@ Route::middleware('auth')->group(function () {
         // Radiografías
         Route::post('xrays',        [XrayController::class, 'store'])->name('xrays.store');
         Route::delete('xrays/{id}', [XrayController::class, 'destroy'])->name('xrays.destroy');
+        Route::get('xrays/{id}', [XrayController::class, 'show'])->name('xrays.show');
 
         // Odontogramas
         Route::post('odontograms',        [OdontogramController::class, 'store'])->name('odontograms.store');
