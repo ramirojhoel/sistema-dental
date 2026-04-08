@@ -249,7 +249,100 @@
                 </table>
             @endif
         </div>
+        {{-- Radiografías --}}
+        <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden mb-6">
+            <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
+                <h3 class="font-bold text-slate-800 text-sm">🔬 Radiografías</h3>
+            </div>
 
+        {{-- Formulario subir radiografía --}}
+        @if(in_array(Auth::user()->role, ['admin', 'dentist']))
+            <div class="px-6 py-5 border-b border-slate-100 bg-slate-50">
+                <p class="text-xs font-semibold text-slate-500 mb-3 uppercase tracking-wider">Subir Nueva Radiografía</p>
+                <form method="POST" action="{{ route('xrays.store') }}" enctype="multipart/form-data"
+                      id="xray-form">
+                    @csrf
+                    <input type="hidden" name="id_history" value="{{ $history->id_history }}">
+                    <div class="grid grid-cols-4 gap-3">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-500 mb-1">Tipo *</label>
+                            <select name="type" class="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500" required>
+                                <option value="">— Tipo —</option>
+                                <option value="Panoramic">Panorámica</option>
+                                <option value="Periapical">Periapical</option>
+                                <option value="Bitewing">Bitewing</option>
+                                <option value="Occlusal">Oclusal</option>
+                                <option value="Cephalometric">Cefalométrica</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-500 mb-1">Fecha *</label>
+                            <input type="date" name="date" value="{{ date('Y-m-d') }}"
+                                class="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500" required>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-500 mb-1">Imagen (JPG/PNG) *</label>
+                            <input type="file" name="archive_url" accept=".jpg,.jpeg,.png"
+                                class="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500" required>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-500 mb-1">Observaciones</label>
+                            <input type="text" name="observations" placeholder="Notas opcionales..."
+                                class="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
+                        </div>
+                    </div>
+                    <div class="mt-3 flex justify-end">
+                        <button type="submit" form="xray-form"
+                            class="gradient-header text-white px-5 py-2 rounded-xl text-sm font-semibold hover:opacity-90 transition-all">
+                            📤 Subir Radiografía
+                        </button>
+                    </div>
+                </form>
+            </div>
+            @endif
+
+            {{-- Lista de radiografías --}}
+            @if($history->xrays->isEmpty())
+                <div class="px-6 py-10 text-center">
+                    <p class="text-3xl mb-2">🔬</p>
+                    <p class="text-slate-400 text-sm">Sin radiografías registradas</p>
+                </div>
+            @else
+                <div class="grid grid-cols-3 gap-4 p-6">
+                    @foreach($history->xrays as $xray)
+                    <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all">
+                        <div class="bg-slate-900 h-40 flex items-center justify-center overflow-hidden">
+                            <img src="{{ asset('storage/' . $xray->archive_url) }}"
+                                 alt="Radiografía"
+                                 class="h-40 w-full object-cover">
+                        </div>
+                        <div class="p-3">
+                            <span class="text-xs font-semibold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full">{{ $xray->type }}</span>
+                            <p class="text-xs text-slate-400 mt-1">{{ \Carbon\Carbon::parse($xray->date)->format('d/m/Y') }}</p>
+                            @if($xray->observations)
+                                <p class="text-xs text-slate-500 mt-1 truncate">{{ $xray->observations }}</p>
+                            @endif
+                            <div class="flex gap-2 mt-2">
+                                <a href="{{ route('xrays.show', $xray->id_xray) }}"
+                                   class="flex-1 text-center text-xs font-semibold text-teal-600 bg-teal-50 hover:bg-teal-100 px-2 py-1.5 rounded-lg transition-colors">
+                                    Ver →
+                                </a>
+                                @if(in_array(Auth::user()->role, ['admin', 'dentist']))
+                                <form method="POST" action="{{ route('xrays.destroy', $xray->id_xray) }}">
+                                    @csrf @method('DELETE')
+                                    <button onclick="return confirm('¿Eliminar?')"
+                                        class="text-xs font-semibold text-red-600 bg-red-50 hover:bg-red-100 px-2 py-1.5 rounded-lg transition-colors">
+                                        🗑️
+                                    </button>
+                                </form>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+            @endif
+        </div>
         {{-- Observaciones --}}
         <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
             <div class="px-6 py-4 border-b border-slate-100">
