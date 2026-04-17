@@ -31,18 +31,19 @@ class PatientController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'CI'            => 'required|string|max:20|unique:patients',
-            'first_name'    => 'required|string|max:100',
-            'last_name'     => 'required|string|max:100',
-            'date_of_birth' => 'nullable|date',
+        $validated = $request->validate
+        ([
+            'CI'            => 'required|string|max:20|unique:patients|regex:/^[0-9]+$/',
+            'first_name'    => 'required|string|max:100|regex:/^[\pL\s]+$/u',
+            'last_name'     => 'required|string|max:100|regex:/^[\pL\s]+$/u',
+            'date_of_birth' => 'nullable|date|before:today',
             'sex'           => 'nullable|in:M,F,Other',
-            'phone_number'  => 'nullable|string|max:20',
+            'phone_number'  => 'nullable|string|max:20|regex:/^[0-9]+$/',
             'address'       => 'nullable|string|max:250',
             'blood_type'    => 'nullable|string|max:5',
             'allergies'     => 'nullable|string',
-            'emergency_contact_name'  => 'nullable|string|max:100',
-            'emergency_contact_phone' => 'nullable|string|max:20',
+            'emergency_contact_name'  => 'nullable|string|max:100|regex:/^[\pL\s]+$/u',
+            'emergency_contact_phone' => 'nullable|string|max:20|regex:/^[0-9]+$/',
         ]);
 
         $patient = Patient::create($validated);
@@ -72,14 +73,15 @@ class PatientController extends Controller
     {
         $patient = Patient::findOrFail($id);
 
-        $validated = $request->validate([
-            'first_name'   => 'required|string|max:100',
-            'last_name'    => 'required|string|max:100',
-            'phone_number' => 'nullable|string|max:20',
+        $validated = $request->validate
+        ([
+            'first_name'   => 'required|string|max:100|regex:/^[\pL\s]+$/u',
+            'last_name'    => 'required|string|max:100|regex:/^[\pL\s]+$/u',
+            'phone_number' => 'nullable|string|max:20|regex:/^[0-9]+$/',
             'address'      => 'nullable|string|max:250',
             'allergies'    => 'nullable|string',
-            'emergency_contact_name'  => 'nullable|string|max:100',
-            'emergency_contact_phone' => 'nullable|string|max:20',
+            'emergency_contact_name'  => 'nullable|string|max:100|regex:/^[\pL\s]+$/u',
+            'emergency_contact_phone' => 'nullable|string|max:20|regex:/^[0-9]+$/',
         ]);
 
         $patient->update($validated);
