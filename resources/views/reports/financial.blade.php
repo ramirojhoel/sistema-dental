@@ -49,7 +49,7 @@
         Fecha: {{ date('d/m/Y') }}<br>
         Total planes: {{ $plans->count() }}
     </div>
-    <h1>🦷 DentalSys — Reporte Financiero</h1>
+    <h1>🦷 SaorDentalSystem — Reporte Financiero</h1>
     <p>Resumen de ingresos y pagos del sistema</p>
 </div>
 
@@ -113,7 +113,7 @@
 </div>
 
 <div class="footer">
-    DentalSys — Sistema de Gestión Dental | Generado el {{ date('d/m/Y H:i') }}
+    SaorDentalSystem — Sistema de Gestión Dental | Generado el {{ date('d/m/Y H:i') }}
 </div>
 
 </body>

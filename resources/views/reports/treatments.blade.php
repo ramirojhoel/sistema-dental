@@ -49,7 +49,7 @@
         Fecha: {{ date('d/m/Y') }}<br>
         Total: {{ $total }} tratamientos
     </div>
-    <h1>🦷 DentalSys — Reporte de Tratamientos</h1>
+    <h1>🦷 SaorDentalSystem — Reporte de Tratamientos</h1>
     <p>Listado completo de tratamientos registrados en el sistema</p>
 </div>
 
@@ -115,7 +115,7 @@
 </div>
 
 <div class="footer">
-    DentalSys — Sistema de Gestión Dental | Generado el {{ date('d/m/Y H:i') }}
+    SaorDentalSystem — Sistema de Gestión Dental | Generado el {{ date('d/m/Y H:i') }}
 </div>
 
 </body>

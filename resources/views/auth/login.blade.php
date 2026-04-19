@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DentalSys — Iniciar Sesión</title>
+    <title>SaorDentalSystem — Iniciar Sesión</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -60,7 +60,7 @@
             <div class="w-24 h-24 bg-white/20 rounded-3xl flex items-center justify-center text-5xl mx-auto mb-8 shadow-2xl">
                 🦷
             </div>
-            <h1 class="text-white text-4xl font-extrabold mb-4">DentalSys</h1>
+            <h1 class="text-white text-4xl font-extrabold mb-4">SaorDentalSystem</h1>
             <p class="text-teal-200 text-lg font-medium mb-12">Sistema de Gestión Dental</p>
 
             {{-- Features --}}
@@ -99,7 +99,7 @@
                 <div class="w-16 h-16 gradient-bg rounded-2xl flex items-center justify-center text-3xl mx-auto mb-3">
                     🦷
                 </div>
-                <h1 class="text-2xl font-extrabold text-slate-800">DentalSys</h1>
+                <h1 class="text-2xl font-extrabold text-slate-800">SaorDentalSystem</h1>
             </div>
 
             {{-- Tarjeta del formulario --}}
@@ -178,7 +178,7 @@
                 {{-- Footer --}}
                 <div class="mt-8 pt-6 border-t border-slate-100 text-center">
                     <p class="text-xs text-slate-400">
-                        © 2026 DentalSys — Sistema de Gestión Dental
+                        © 2026 SaorDentalSystem — Sistema de Gestión Dental
                     </p>
                     <p class="text-xs text-slate-300 mt-1">
                         Versión 1.0.0

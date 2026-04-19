@@ -29,7 +29,7 @@
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center text-2xl">🦷</div>
                 <div>
-                    <h1 class="text-white font-bold text-lg leading-tight">DentalSys</h1>
+                    <h1 class="text-white font-bold text-lg leading-tight">SaorDentalSystem</h1>
                     <p class="text-teal-200 text-xs">Sistema de Gestión</p>
                 </div>
             </div>
