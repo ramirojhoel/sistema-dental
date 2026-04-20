@@ -178,10 +178,10 @@
                 {{-- Footer --}}
                 <div class="mt-8 pt-6 border-t border-slate-100 text-center">
                     <p class="text-xs text-slate-400">
-                        © Sistema Integral de Gestión Odontológica Versión 1.2.0 · 2026
+                        © SaorDentalSystem · Sistema Integral de Gestión Odontológica
                     </p>
                     <p class="text-xs text-slate-300 mt-1">
-                        Versión 1.2.0
+                        Versión 1.2.0 · 2026
                     </p>
                 </div>
             </div>
