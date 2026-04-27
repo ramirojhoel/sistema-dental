@@ -57,8 +57,8 @@
 
         {{-- Contenido principal --}}
         <div class="relative z-10 text-center">
-            <div class="w-24 h-24 bg-white/20 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-2xl overflow-hidden">
-                <img src="{{ asset('images/logo_saor.jpg') }}" class="w-20 h-20 object-contain">
+            <div class="w-32 h-32 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-2xl overflow-hidden bg-white">
+                <img src="{{ asset('images/logo_saor.jpg') }}" class="w-full h-full object-cover">
             </div>
             <h1 class="text-white text-4xl font-extrabold mb-4">SaorDentalSystem</h1>
             <p class="text-teal-200 text-lg font-medium mb-12">Sistema de Gestión Dental</p>
