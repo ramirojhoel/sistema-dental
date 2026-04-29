@@ -28,14 +28,22 @@ class UserController extends Controller
     public function store(Request $request)
     {
     $validated = $request->validate([
-        'name'      => 'required|string|max:100',
-        'last_name' => 'required|string|max:100',
-        'email'     => 'required|email|unique:users',
-        'password'  => 'required|string|min:8|confirmed',
-        'role'      => 'required|in:admin,dentist,receptionist',
-        'specialty' => 'nullable|string|max:100',
-        'phone'     => 'nullable|string|max:20',
-        'active'    => 'nullable|boolean',
+    'name'      => 'required|string|max:100|regex:/^[\pL\s]+$/u',
+    'last_name' => 'required|string|max:100|regex:/^[\pL\s]+$/u',
+    'email'     => 'required|email|unique:users',
+    'password'  => 'required|string|min:8|confirmed',
+    'role'      => 'required|in:admin,dentist,receptionist',
+    'specialty' => 'nullable|string|max:100|regex:/^[\pL\s,]+$/u',
+    'phone'     => 'nullable|string|max:20|regex:/^[0-9]+$/',
+    'active'    => 'nullable|boolean',
+    ], [
+    'name.regex'      => 'El nombre solo debe contener letras.',
+    'last_name.regex' => 'El apellido solo debe contener letras.',
+    'email.email'     => 'El correo electrónico no es válido.',
+    'email.unique'    => 'El correo ya está registrado.',
+    'password.min'    => 'La contraseña debe tener al menos 8 caracteres.',
+    'specialty.regex' => 'La especialidad solo debe contener letras.',
+    'phone.regex'     => 'El teléfono solo debe contener números.',
     ]);
 
     $validated['password'] = Hash::make($validated['password']);
@@ -58,15 +66,22 @@ class UserController extends Controller
     $user = User::findOrFail($id);
 
     $validated = $request->validate([
-        'name'      => 'required|string|max:100',
-        'last_name' => 'required|string|max:100',
-        'email'     => 'required|email|unique:users,email,' . $id . ',id_user',
-        'role'      => 'required|in:admin,dentist,receptionist',
-        'specialty' => 'nullable|string|max:100',
-        'phone'     => 'nullable|string|max:20',
-        'active'    => 'nullable|boolean',
-        'password'  => 'nullable|string|min:8|confirmed',
+    'name'      => 'required|string|max:100|regex:/^[\pL\s]+$/u',
+    'last_name' => 'required|string|max:100|regex:/^[\pL\s]+$/u',
+    'email'     => 'required|email|unique:users,email,' . $id . ',id_user',
+    'role'      => 'required|in:admin,dentist,receptionist',
+    'specialty' => 'nullable|string|max:100|regex:/^[\pL\s,]+$/u',
+    'phone'     => 'nullable|string|max:20|regex:/^[0-9]+$/',
+    'active'    => 'nullable|boolean',
+    'password'  => 'nullable|string|min:8|confirmed',
+    ], [
+    'name.regex'      => 'El nombre solo debe contener letras.',
+    'last_name.regex' => 'El apellido solo debe contener letras.',
+    'email.email'     => 'El correo electrónico no es válido.',
+    'specialty.regex' => 'La especialidad solo debe contener letras.',
+    'phone.regex'     => 'El teléfono solo debe contener números.',
     ]);
+
 
     if (!empty($validated['password'])) {
         $validated['password'] = Hash::make($validated['password']);
