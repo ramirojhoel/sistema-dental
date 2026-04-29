@@ -186,29 +186,6 @@
                 </div>
             </div>
 
-            {{-- Usuarios de prueba --}}
-            <div class="mt-4 bg-white rounded-2xl border border-slate-100 p-4 shadow-sm">
-                <p class="text-xs font-semibold text-slate-500 mb-3 uppercase tracking-wider">👤 Usuarios de prueba</p>
-                <div class="space-y-2">
-                    <div class="flex items-center justify-between text-xs">
-                        <div class="flex items-center gap-2">
-                            <span class="w-5 h-5 bg-red-100 rounded-full flex items-center justify-center text-xs">🔴</span>
-                            <span class="text-slate-600 font-medium">Admin</span>
-                        </div>
-                        <span class="text-slate-400 font-mono">admin@dental.com / 123456</span>
-                    </div>
-                    <div class="flex items-center justify-between text-xs">
-                        <div class="flex items-center gap-2">
-                            <span class="w-5 h-5 bg-teal-100 rounded-full flex items-center justify-center text-xs">🦷</span>
-                            <span class="text-slate-600 font-medium">Recepcionista</span>
-                        </div>
-                        <span class="text-slate-400 font-mono">maria@dental.com / 12345678</span>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
 
 </body>
 
