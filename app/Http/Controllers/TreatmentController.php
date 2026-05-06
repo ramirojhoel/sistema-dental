@@ -114,3 +114,4 @@ class TreatmentController extends Controller
                          ->with('success', 'Tratamiento eliminado.');
     }
 }
+    
