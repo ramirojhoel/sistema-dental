@@ -75,7 +75,8 @@
                 <span class="text-lg">📄</span> Reportes
             </a>
             @endif
-            
+
+            @endif
             @if(Auth::user()->role == 'admin')
             <div class="pt-4">
                 <p class="text-teal-300 text-xs font-semibold uppercase tracking-wider px-3 mb-3">Administración</p>
