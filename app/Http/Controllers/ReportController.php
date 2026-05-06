@@ -65,4 +65,14 @@ class ReportController extends Controller
         ))->setPaper('a4', 'landscape');
         return $pdf->download('reporte-financiero-' . date('Y-m-d') . '.pdf');
     }
+
+    public function index()
+    {
+    return view('reports.index');
+    }
+
+
+
+
+
 }

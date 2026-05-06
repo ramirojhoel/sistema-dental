@@ -16,6 +16,7 @@ use App\Http\Controllers\OdontogramController;
 Route::get('/login',  [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 Route::post('/logout',[AuthController::class, 'logout'])->name('logout');
+Route::get('reports', [\App\Http\Controllers\ReportController::class, 'index'])->name('reports.index');
 
 Route::middleware('auth')->group(function () {
 
