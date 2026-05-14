@@ -58,6 +58,11 @@ Route::middleware('auth')->group(function () {
         Route::get('treatments/{treatmentId}/payment',  [PaymentPlanController::class, 'show'])->name('payment.show');
         Route::post('treatments/{treatmentId}/payment', [PaymentPlanController::class, 'registerPayment'])->name('payment.register');
 
+        // Calendario
+        Route::get('calendar', [\App\Http\Controllers\CalendarController::class, 'index'])->name('calendar.index');
+        Route::post('calendar/notes', [\App\Http\Controllers\CalendarController::class, 'storeNote'])->name('calendar.notes.store');
+        Route::delete('calendar/notes/{id}', [\App\Http\Controllers\CalendarController::class, 'destroyNote'])->name('calendar.notes.destroy');
+
         // ── REPORTES ──────────────────────────────────
         Route::get('reports/patients',     [\App\Http\Controllers\ReportController::class, 'patients'])->name('reports.patients');
         Route::get('reports/appointments', [\App\Http\Controllers\ReportController::class, 'appointments'])->name('reports.appointments');
