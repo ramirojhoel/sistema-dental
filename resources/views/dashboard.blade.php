@@ -263,53 +263,6 @@
                 @endif
             </div>
         </div>
-
-        {{-- ── ÚLTIMOS PACIENTES ────────────────── --}}
-        <div class="bg-white rounded-2xl border border-slate-100 overflow-hidden">
-            <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
-                <h3 class="font-bold text-slate-800 text-sm">🆕 Últimos Pacientes Registrados</h3>
-                <a href="{{ route('patients.create') }}" class="text-xs text-teal-600 font-semibold hover:underline">+ Nuevo Paciente</a>
-            </div>
-            <table class="w-full">
-                <thead>
-                    <tr class="bg-slate-50">
-                        <th class="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Paciente</th>
-                        <th class="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">CI</th>
-                        <th class="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Teléfono</th>
-                        <th class="px-6 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Registrado</th>
-                        <th class="px-6 py-3"></th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-slate-50">
-                    @forelse($recentPatients as $patient)
-                    <tr class="hover:bg-slate-50 transition-colors">
-                        <td class="px-6 py-4">
-                            <div class="flex items-center gap-3">
-                                <div class="w-8 h-8 gradient-header rounded-full flex items-center justify-center text-white text-xs font-bold">
-                                    {{ strtoupper(substr($patient->first_name, 0, 1)) }}
-                                </div>
-                                <span class="text-sm font-semibold text-slate-700">{{ $patient->first_name }} {{ $patient->last_name }}</span>
-                            </div>
-                        </td>
-                        <td class="px-6 py-4 text-sm text-slate-500">{{ $patient->CI }}</td>
-                        <td class="px-6 py-4 text-sm text-slate-500">{{ $patient->phone_number ?? '—' }}</td>
-                        <td class="px-6 py-4 text-sm text-slate-500">{{ $patient->created_at->format('d/m/Y') }}</td>
-                        <td class="px-6 py-4">
-                            <a href="{{ route('patients.show', $patient->id_patient) }}"
-                               class="text-xs font-semibold text-teal-600 hover:text-teal-800 transition-colors">
-                                Ver →
-                            </a>
-                        </td>
-                    </tr>
-                    @empty
-                    <tr>
-                        <td colspan="5" class="px-6 py-10 text-center text-slate-400 text-sm">No hay pacientes registrados aún.</td>
-                    </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
-
     </main>
 </div>
 
