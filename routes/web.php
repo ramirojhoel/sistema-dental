@@ -16,11 +16,13 @@ use App\Http\Controllers\OdontogramController;
 Route::get('/login',  [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 Route::post('/logout',[AuthController::class, 'logout'])->name('logout');
-Route::get('reports', [\App\Http\Controllers\ReportController::class, 'index'])->name('reports.index');
-
+Route::get('/', function () 
+{
+    return redirect()->route('login');
+});
 Route::middleware('auth')->group(function () {
-
-    Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
+Route::get('reports', [\App\Http\Controllers\ReportController::class, 'index'])->name('reports.index');
+Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
 
     // ── SOLO ADMIN ────────────────────────────────
     Route::middleware('role:admin')->group(function () {
@@ -69,10 +71,6 @@ Route::middleware('auth')->group(function () {
         Route::get('reports/treatments',   [\App\Http\Controllers\ReportController::class, 'treatments'])->name('reports.treatments');
         Route::get('reports/financial',    [\App\Http\Controllers\ReportController::class, 'financial'])->name('reports.financial');
 
-        // ── RUTA RAÍZ ──────────────────────────────
-        Route::get('/', function () {
-        return redirect()->route('login');
-        });
 
     });
 
