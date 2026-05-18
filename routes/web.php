@@ -12,7 +12,7 @@ use App\Http\Controllers\PaymentPlanController;
 use App\Http\Controllers\XrayController;
 use App\Http\Controllers\OdontogramController;
 
-// ── AUTH 
+// ── AUTH ──────────────────────────────────
 Route::get('/login',  [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 Route::post('/logout',[AuthController::class, 'logout'])->name('logout');
@@ -24,7 +24,7 @@ Route::middleware('auth')->group(function () {
 Route::get('reports', [\App\Http\Controllers\ReportController::class, 'index'])->name('reports.index');
 Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
 
-    // ── SOLO ADMIN ────────────────────────────────
+    // ── ADMIN ────────────────────────────────
     Route::middleware('role:admin')->group(function () {
         Route::resource('users', UserController::class);
     });
@@ -39,7 +39,7 @@ Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'inde
         Route::get('history/{id}/edit',                   [MedicalHistoryController::class, 'edit'])->name('medical_history.edit');
         Route::put('history/{id}',                        [MedicalHistoryController::class, 'update'])->name('medical_history.update');
 
-        // Tratamientos
+        // Tratamientos──────────────────────────────────
         Route::resource('treatments', TreatmentController::class);
 
         // Radiografías
@@ -47,20 +47,20 @@ Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'inde
         Route::delete('xrays/{id}', [XrayController::class, 'destroy'])->name('xrays.destroy');
         Route::get('xrays/{id}', [XrayController::class, 'show'])->name('xrays.show');
 
-        // Odontogramas
+        // Odontogramas──────────────────────────────────
         Route::post('odontograms',        [OdontogramController::class, 'store'])->name('odontograms.store');
         Route::delete('odontograms/{id}', [OdontogramController::class, 'destroy'])->name('odontograms.destroy');
 
-        // Seguimiento
+        // Seguimiento──────────────────────────────────
         Route::get('treatments/{treatmentId}/tracking', [TrackingController::class, 'index'])->name('tracking.index');
         Route::post('tracking',                         [TrackingController::class, 'store'])->name('tracking.store');
         Route::put('tracking/{id}',                     [TrackingController::class, 'update'])->name('tracking.update');
 
-        // Pagos
+        // Pagos──────────────────────────────────
         Route::get('treatments/{treatmentId}/payment',  [PaymentPlanController::class, 'show'])->name('payment.show');
         Route::post('treatments/{treatmentId}/payment', [PaymentPlanController::class, 'registerPayment'])->name('payment.register');
 
-        // Calendario
+        // Calendario──────────────────────────────────
         Route::get('calendar', [\App\Http\Controllers\CalendarController::class, 'index'])->name('calendar.index');
         Route::post('calendar/notes', [\App\Http\Controllers\CalendarController::class, 'storeNote'])->name('calendar.notes.store');
         Route::delete('calendar/notes/{id}', [\App\Http\Controllers\CalendarController::class, 'destroyNote'])->name('calendar.notes.destroy');

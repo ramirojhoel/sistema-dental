@@ -83,7 +83,7 @@
         </div>
     </aside>
 
-    {{-- ── CONTENIDO ── --}}
+    {{--CONTENIDO--}}
     <main class="ml-64 flex-1 p-8">
 
         {{-- Header --}}
@@ -125,7 +125,7 @@
                 </div>
             </a>
 
-            {{-- Reporte Tratamientos --}}
+            {{-- Reportes Tratamientos --}}
             <a href="{{ route('reports.treatments') }}"
                class="report-card bg-white rounded-2xl border border-slate-100 shadow-sm p-8 flex items-center gap-6 hover:border-purple-200">
                 <div class="w-16 h-16 bg-purple-50 rounded-2xl flex items-center justify-center text-3xl flex-shrink-0">
@@ -140,7 +140,7 @@
                 </div>
             </a>
 
-            {{-- Reporte Financiero --}}
+            {{-- Reportes Financieros --}}
             <a href="{{ route('reports.financial') }}"
                class="report-card bg-white rounded-2xl border border-slate-100 shadow-sm p-8 flex items-center gap-6 hover:border-green-200">
                 <div class="w-16 h-16 bg-green-50 rounded-2xl flex items-center justify-center text-3xl flex-shrink-0">
@@ -157,7 +157,7 @@
 
         </div>
 
-        {{-- Info --}}
+        {{-- Informacion --}}
         <div class="mt-8 bg-blue-50 border border-blue-100 rounded-2xl p-5 flex items-center gap-4">
             <span class="text-2xl">💡</span>
             <p class="text-blue-700 text-sm">
