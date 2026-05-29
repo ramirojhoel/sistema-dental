@@ -225,7 +225,6 @@
                 </div>
             @endif
         </div>
-
     </main>
 </div>
 
