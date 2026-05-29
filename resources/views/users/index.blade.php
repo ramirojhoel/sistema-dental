@@ -173,7 +173,16 @@
                             @endif
                         </td>
                         <td class="px-6 py-4 text-sm text-slate-500">{{ $user->specialty ?? '—' }}</td>
-                        <td class="px-6 py-4 text-sm text-slate-500">{{ $user->phone ?? '—' }}</td>
+                        <td class="px-6 py-4 text-sm text-slate-500">
+                        @if($user->phone)
+                        <a href="https://wa.me/591{{ $user->phone }}" target="_blank"
+                        class="flex items-center gap-1 text-green-600 hover:text-green-700 font-semibold transition-colors">
+                        <span>📱</span> {{ $user->phone }}
+                        </a>
+                        @else
+                        —
+                        @endif
+                        </td>
                         <td class="px-6 py-4">
                             @if($user->active)
                                 <span class="text-xs font-semibold text-green-600 bg-green-50 px-3 py-1 rounded-full">✅ Activo</span>
