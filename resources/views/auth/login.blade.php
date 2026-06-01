@@ -170,7 +170,7 @@
                     {{-- Botón --}}
                     <button type="submit"
                         class="w-full gradient-bg text-white py-3 rounded-xl font-bold text-sm hover:opacity-90 transition-all shadow-lg shadow-teal-500/25 mt-2">
-                        Iniciar Sesión →
+                        Iniciar Sesión 
                     </button>
 
                 </form>
