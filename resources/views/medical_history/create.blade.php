@@ -64,14 +64,12 @@
             <a href="{{ route('treatments.index') }}" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-teal-100 text-sm font-medium">
                 <span class="text-lg">🦷</span> Tratamientos
             </a>
-            @if(in_array(Auth::user()->role, ['admin', 'dentist']))
             <a href="{{ route('reports.index') }}" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-teal-100 text-sm font-medium">
                 <span class="text-lg">📄</span> Reportes
             </a>
             <a href="{{ route('calendar.index') }}" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-teal-100 text-sm font-medium">
                 <span class="text-lg">🗓️</span> Calendario
             </a>
-            
             @endif
             
             @if(Auth::user()->role == 'admin')

@@ -60,8 +60,8 @@
             <a href="{{ route('calendar.index') }}" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-teal-100 text-sm font-medium">
                 <span class="text-lg">🗓️</span> Calendario
             </a>
-
-        @endif     
+            @endif
+            @if(Auth::user()->role == 'admin')    
         
         @if(Auth::user()->role == 'admin')
             <div class="pt-4">

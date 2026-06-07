@@ -60,10 +60,11 @@
             <a href="{{ route('appointments.index') }}" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-teal-100 text-sm font-medium">
                 <span class="text-lg">📅</span> Citas
             </a>
+           
+            @if(in_array(Auth::user()->role, ['admin', 'dentist']))
             <a href="{{ route('treatments.index') }}" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-teal-100 text-sm font-medium">
                 <span class="text-lg">🦷</span> Tratamientos
             </a>
-            @if(in_array(Auth::user()->role, ['admin', 'dentist']))
             <a href="{{ route('reports.index') }}" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-teal-100 text-sm font-medium">
                 <span class="text-lg">📄</span> Reportes
             </a>
@@ -72,6 +73,7 @@
             </a>
 
             @endif
+            
             <div class="pt-4">
                 <p class="text-teal-300 text-xs font-semibold uppercase tracking-wider px-3 mb-3">Administración</p>
                 <a href="{{ route('users.index') }}" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-white text-sm font-medium bg-white/20">
