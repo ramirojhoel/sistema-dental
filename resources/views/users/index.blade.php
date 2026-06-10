@@ -201,7 +201,7 @@
                                         @csrf @method('DELETE')
                                         <button onclick="return confirm('¿Eliminar usuario?')"
                                             class="text-xs font-semibold text-red-600 bg-red-50 hover:bg-red-100 px-3 py-1.5 rounded-lg transition-colors">
-                                            Eliminar
+                                            Desactivar
                                         </button>
                                     </form>
                                 @endif
