@@ -112,6 +112,23 @@ class UserController extends Controller
                          ->with('success', 'Usuario actualizado.');
     }
 
+    public function resetPassword($id)
+    {
+    $user = User::findOrFail($id);
+    
+    // Generar contraseña temporal de 8 caracteres
+    $tempPassword = strtoupper(substr(str_shuffle('abcdefghijklmnopqrstuvwxyz0123456789'), 0, 4)) 
+                  . rand(100, 999) 
+                  . '!';
+    
+    $user->update([
+        'password' => Hash::make($tempPassword)
+    ]);
+
+    return redirect()->route('users.index')
+                     ->with('success', '✅ Contraseña reseteada. Nueva contraseña temporal: ' . $tempPassword);
+    }
+    
     public function destroy($id)
     {
         $user = User::findOrFail($id);

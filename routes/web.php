@@ -26,7 +26,8 @@ Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'inde
 
     // ── ADMIN ────────────────────────────────
     Route::middleware('role:admin')->group(function () {
-        Route::resource('users', UserController::class);
+    Route::resource('users', UserController::class);
+    Route::post('users/{id}/reset-password', [UserController::class, 'resetPassword'])->name('users.reset-password');
     });
 
     // ── ADMIN Y DENTISTA ──────────────────────────
@@ -70,7 +71,6 @@ Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'inde
         Route::get('reports/appointments', [\App\Http\Controllers\ReportController::class, 'appointments'])->name('reports.appointments');
         Route::get('reports/treatments',   [\App\Http\Controllers\ReportController::class, 'treatments'])->name('reports.treatments');
         Route::get('reports/financial',    [\App\Http\Controllers\ReportController::class, 'financial'])->name('reports.financial');
-
 
     });
 

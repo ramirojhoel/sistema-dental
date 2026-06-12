@@ -196,6 +196,13 @@
                                    class="text-xs font-semibold text-blue-600 bg-blue-50 hover:bg-blue-100 px-3 py-1.5 rounded-lg transition-colors">
                                     Editar
                                 </a>
+                                <form method="POST" action="{{ route('users.reset-password', $user->id_user) }}" style="display:inline">
+                                @csrf
+                                <button onclick="return confirm('¿Resetear contraseña de {{ $user->name }}?')"
+                                class="text-xs font-semibold text-amber-600 bg-amber-50 hover:bg-amber-100 px-3 py-1.5 rounded-lg transition-colors">
+                                🔑 Reset
+                                </button>
+                                </form>
                                 @if($user->id_user != Auth::user()->id_user)
                                     <form method="POST" action="{{ route('users.destroy', $user->id_user) }}" style="display:inline">
                                         @csrf @method('DELETE')
